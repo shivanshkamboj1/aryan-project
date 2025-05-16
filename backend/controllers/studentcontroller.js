@@ -7,6 +7,9 @@ exports.createStudent = async (req, res) => {
     const student = await Student.create({ name, age, course, email });
     res.status(201).json(student);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({ error: 'Email already registered' });
+    }
     res.status(400).json({ error: error.message });
   }
 };

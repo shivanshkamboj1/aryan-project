@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import API from '../Apis/api';
+import { toast } from 'react-toastify';
 
 const StudentForm = ({ fetchStudents, editingStudent, setEditingStudent }) => {
   const [form, setForm] = useState({ name: '', age: '', course: '', email: '' });
@@ -20,10 +21,16 @@ const StudentForm = ({ fetchStudents, editingStudent, setEditingStudent }) => {
         setEditingStudent(null);
       } else {
         await API.post('/students', form);
+        toast.success("Student created successfully");
       }
       setForm({ name: '', age: '', course: '', email: '' });
       fetchStudents();
     } catch (err) {
+      if (err.response?.data?.error === "Email already registered"){
+        toast.error("Email already registered");
+      } else {
+        toast.error("Something went wrong");
+      }
       console.error(err.message);
     }
   };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import StudentForm from './components/Form';
 import StudentList from './components/List';
 import API from './Apis/api';
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
   const [students, setStudents] = useState([]);
@@ -26,6 +27,7 @@ function App() {
       <h1 className="text-3xl font-bold mb-6 text-center">Student Management App</h1>
       <StudentForm fetchStudents={fetchStudents} editingStudent={editingStudent} setEditingStudent={setEditingStudent} />
       <StudentList students={students} onEdit={setEditingStudent} onDelete={handleDelete} />
+      <ToastContainer />
     </div>
   );
 }
