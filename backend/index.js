@@ -1,15 +1,24 @@
 const express = require('express');
 const connectDB = require('./config/database');
 const studentRoutes = require('./routes/routes');
+const userRoutes = require('./routes/userRoutes');
 const cors = require('cors');
 require('dotenv').config();
-
+require("./config/passport"); 
+const passport = require("passport");
+// const session = require("express-session");
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 connectDB();
 app.use(cors());
 app.use(express.json());
-app.use('/api', studentRoutes);
-
+app.use(express.urlencoded({extended:true}))
+app.use('/api/user', userRoutes);
+// app.use(session({ secret: "keyboard cat", resave: false, saveUninitialized: false }));
+// app.use(passport.session());
+app.use(passport.initialize());
+app.get('/',(req,res)=>{
+    res.send("api is working")
+})
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
