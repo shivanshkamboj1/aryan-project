@@ -6,6 +6,8 @@ require("dotenv").config()
 const { v4: uuidv4 } = require('uuid');
 const {mailSender} = require("../utils/mailsender");
 const otpGenerator = require('otp-generator');
+const redisClient = require('../config/redis')
+
 
 exports.signup = async(req,res)=>{
     try {

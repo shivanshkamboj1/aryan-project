@@ -9,11 +9,16 @@ const passport = require("passport");
 // const session = require("express-session");
 const app = express();
 const PORT = process.env.PORT || 4000;
+const cookieparser  = require("cookie-parser")
+
+
+
 
 connectDB();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
+app.use(cookieparser())
 app.use('/api/user', userRoutes);
 // app.use(session({ secret: "keyboard cat", resave: false, saveUninitialized: false }));
 // app.use(passport.session());
@@ -21,4 +26,5 @@ app.use(passport.initialize());
 app.get('/',(req,res)=>{
     res.send("api is working")
 })
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+module.exports =  app;
