@@ -41,6 +41,12 @@ exports.signup = async(req,res)=>{
         // })
         const user = await User.create({firstName,lastName,emailId,password});
         user.password = undefined;
+        const token = jwt.sign({ id: user._id, emailId: user.emailId,membershipType:user.membershipType },process.env.JWT_SECRET,options)
+        const options2 = {
+            expires: new Date(Date.now() +  24 * 60 * 60 * 1000),
+            httpOnly: true,
+        }
+        res.cookie("token",token,options2)
         return res.status(200).json({
             success:true,
             message:"Sign up succesfully"

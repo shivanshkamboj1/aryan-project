@@ -1,26 +1,35 @@
 import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { UserContext } from '../context/user.context'
+import { UserContext } from '../context/userContext'
 import axios from '../config/axios'
+import Google from './Google'
 
 const Signup = () => {
 
-    const [ email, setEmail ] = useState('')
-    const [ password, setPassword ] = useState('')
-
+    const [ data, setData ] = useState({
+        firstName:"",
+        lastName:"",
+        emailId:"",
+        password:""
+    })
     const { setUser } = useContext(UserContext)
 
     const navigate = useNavigate()
+    function handleChange(e) {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value
+        })
+    }
 
 
     function submitHandler(e) {
 
         e.preventDefault()
 
-        axios.post('/users/signup', {
-            email,
-            password
-        }).then((res) => {
+        axios.post('/user/signup', 
+            data
+        ).then((res) => {
             console.log(res.data)
             localStorage.setItem('token', res.data.token)
             setUser(res.data.user)
@@ -39,11 +48,37 @@ const Signup = () => {
                     onSubmit={submitHandler}
                 >
                     <div className="mb-4">
+                        <label className="block text-gray-400 mb-2" htmlFor="firstName">First name</label>
+                        <input
+                            name="firstName"
+                            type="text"
+                            id="firstName"
+                            value={data.firstName}
+                            onChange={handleChange}
+                            className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter your first name"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-400 mb-2" htmlFor="email">Last name</label>
+                        <input
+                            name="lastName"
+                            type="text"
+                            id="lastName"
+                            value={data.lastName}
+                            onChange={handleChange}
+                            className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter your last name"
+                        />
+                    </div>
+                    <div className="mb-4">
                         <label className="block text-gray-400 mb-2" htmlFor="email">Email</label>
                         <input
-                            onChange={(e) => setEmail(e.target.value)}
+                            name="emailId"
                             type="email"
-                            id="email"
+                            id="emailId"
+                            value={data.emailId}
+                            onChange={handleChange}
                             className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Enter your email"
                         />
@@ -51,9 +86,11 @@ const Signup = () => {
                     <div className="mb-6">
                         <label className="block text-gray-400 mb-2" htmlFor="password">Password</label>
                         <input
-                            onChange={(e) => setPassword(e.target.value)} s
+                            name="password"
                             type="password"
                             id="password"
+                            value={data.password}
+                            onChange={handleChange}
                             className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Enter your password"
                         />
@@ -69,6 +106,7 @@ const Signup = () => {
                     Already have an account? <Link to="/login" className="text-blue-500 hover:underline">Login</Link>
                 </p>
             </div>
+            <Google/>
         </div>
     )
 }

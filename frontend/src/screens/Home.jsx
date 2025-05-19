@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
-// import { UserContext } from '../context/user.context'
-// import axios from "../config/axios"
-// import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../context/userContext'
+import axios from "../config/axios"
+import { useNavigate } from 'react-router-dom'
+import Google from './Google'
 
 const Home = () => {
     const { user } = useContext(UserContext)
@@ -9,7 +10,7 @@ const Home = () => {
     const [ projectName, setProjectName ] = useState(null)
     const [ project, setProject ] = useState([])
 
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     function createProject(e) {
         e.preventDefault()
@@ -39,7 +40,7 @@ const Home = () => {
 
     return (
         <main className='p-4'>
-        
+           { user&&<span>{user.emailId}</span>}
             <div className="projects flex flex-wrap gap-3">
                 <button
                     onClick={() => setIsModalOpen(true)}
@@ -94,7 +95,7 @@ const Home = () => {
                 </div>
             )}
 
-
+            
         </main>
     )
 }

@@ -14,12 +14,9 @@ router.get("/auth/google/callback",
   (req, res) => {
     // req.user = { user, token } from done() callback in strategy
     const { token } = req.user;
+    console.log(token)
     // Send JWT token to client
-    res.json({
-      success: true,
-      token,
-      message: "Google login successful",
-    });
+    res.redirect(`${process.env.REACT_APP_BASE_URL}/oauth-success?token=${token}`);
   }
 );
 
