@@ -1,11 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { UserContext } from '../context/userContext'
+
 import axios from "../config/axios"
 import { useNavigate } from 'react-router-dom'
 import Google from './Google'
 
 const Home = () => {
-    const { user } = useContext(UserContext)
     const [ isModalOpen, setIsModalOpen ] = useState(false)
     const [ projectName, setProjectName ] = useState(null)
     const [ project, setProject ] = useState([])
@@ -27,7 +26,7 @@ const Home = () => {
                 console.log(error)
             })
     }
-
+    const user =true;
     useEffect(() => {
         axios.get('/projects/all').then((res) => {
             setProject(res.data.projects)

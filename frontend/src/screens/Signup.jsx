@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { UserContext } from '../context/userContext'
 import axios from '../config/axios'
 import Google from './Google'
 
@@ -12,7 +11,6 @@ const Signup = () => {
         emailId:"",
         password:""
     })
-    const { setUser } = useContext(UserContext)
 
     const navigate = useNavigate()
     function handleChange(e) {
@@ -32,7 +30,7 @@ const Signup = () => {
         ).then((res) => {
             console.log(res.data)
             localStorage.setItem('token', res.data.token)
-            setUser(res.data.user)
+
             navigate('/')
         }).catch((err) => {
             console.log(err.response.data)

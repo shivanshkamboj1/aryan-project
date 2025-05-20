@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import AppRoutes from './routes/AppRoutes';
-import { UserProvider } from './context/userContext'
 import { ToastContainer, toast } from 'react-toastify';
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 const App = () => {
   return (
-    <UserProvider>
+    <BrowserRouter>
       <AppRoutes />
       <ToastContainer />
-    </UserProvider>
+    </BrowserRouter>
   )
 }
 export default App;

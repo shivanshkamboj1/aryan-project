@@ -4,22 +4,28 @@ import Home from '../screens/Home'
 import Login from '../screens/Login'
 import Signup from '../screens/Signup'
 import OAuthSuccess from '../components/OAuth'
-
+import OpenRoute from '../components/core/auth'
+import NotFound from '../screens/NotFound'
+import Pending from '../screens/Pending'
 
 const AppRoutes = () => {
-  useEffect(()=>{
-
-  },[])
   return (
     <div>
-        <BrowserRouter>
-            <Routes>
-                <Route path='/' element={<Home/>}/>
-                <Route path='/login' element={<Login/>}/>
-                <Route path='/signup' element={<Signup/>}/>
-                <Route path="/oauth-success" element={<OAuthSuccess/>} />
-            </Routes>
-        </BrowserRouter>
+          <Routes>
+              <Route path='/' element={<Home/>}/>
+              <Route path='/login' element={
+                <OpenRoute>
+                  <Login/>
+                </OpenRoute>
+              }/>
+              <Route path='/signup' element={                
+                <OpenRoute>
+                  <Signup/>
+                </OpenRoute>}/>
+              <Route path="/oauth-success" element={<OAuthSuccess/>} />
+              <Route path="/pending" element={< Pending/>} />
+              <Route path="*" element={< NotFound/>} />
+          </Routes>
     </div>
   )
 }
