@@ -26,8 +26,8 @@ const Signup = () => {
     function submitHandler(e) {
 
         e.preventDefault()
-
-        axios.post('/user/signup', 
+        console.log(data)
+        axios.post('/signup', 
             data
         ).then((res) => {
             console.log(res.data)
@@ -105,8 +105,8 @@ const Signup = () => {
                 <p className="text-gray-400 mt-4">
                     Already have an account? <Link to="/login" className="text-blue-500 hover:underline">Login</Link>
                 </p>
-            </div>
             <Google/>
+            </div>
         </div>
     )
 }

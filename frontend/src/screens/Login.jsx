@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from '../config/axios'
 import { UserContext } from '../context/userContext'
+import Google from './Google'
 
 const Login = () => {
 
@@ -31,7 +32,12 @@ const Login = () => {
             console.log(err.response.data)
         })
     }
-
+    useEffect(()=>{
+        const token = localStorage.getItem('token');
+        if (token) {
+        navigate('/'); // Redirect to home if token found
+        }
+    },[navigate])
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-900">
             <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -70,6 +76,7 @@ const Login = () => {
                 <p className="text-gray-400 mt-4">
                     Don't have an account? <Link to="/signup" className="text-blue-500 hover:underline">Create one</Link>
                 </p>
+                <Google/>
             </div>
         </div>
     )

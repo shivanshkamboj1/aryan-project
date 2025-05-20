@@ -1,6 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/database');
-const studentRoutes = require('./routes/routes');
+const profileRoutes = require('./routes/profileRoutes')
 const userRoutes = require('./routes/userRoutes');
 const cors = require('cors');
 require('dotenv').config();
@@ -10,7 +10,8 @@ const passport = require("passport");
 const app = express();
 const PORT = process.env.PORT || 4000;
 const cookieparser  = require("cookie-parser")
-
+const {cloudinaryConnect } = require("./config/cloudinary");
+const fileUpload = require("express-fileupload");
 
 
 
@@ -19,7 +20,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(cookieparser())
+app.use(
+	fileUpload({
+		useTempFiles:true,
+		tempFileDir:"/tmp",
+	})
+)
 app.use('/api/user', userRoutes);
+app.use('/api/profile', profileRoutes);
+
 // app.use(session({ secret: "keyboard cat", resave: false, saveUninitialized: false }));
 // app.use(passport.session());
 app.use(passport.initialize());

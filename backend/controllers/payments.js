@@ -6,8 +6,6 @@ const Payment = require("../models/payment");
 const mongoose = require('mongoose')
 exports.capturePayment = async (req, res) => {
 
-                                                                                          
-
   const options = {
     amount: req.body.amount,
     currency: "INR",

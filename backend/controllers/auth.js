@@ -41,6 +41,9 @@ exports.signup = async(req,res)=>{
         // })
         const user = await User.create({firstName,lastName,emailId,password});
         user.password = undefined;
+        const options = {
+            expiresIn:"24h"
+        }
         const token = jwt.sign({ id: user._id, emailId: user.emailId,membershipType:user.membershipType },process.env.JWT_SECRET,options)
         const options2 = {
             expires: new Date(Date.now() +  24 * 60 * 60 * 1000),
@@ -111,7 +114,7 @@ exports.login = async (req, res) => {
             success: true,
             message: "Login successful",
             token,
-            user,
+            data:user,
         });
     } catch (error) {
         console.error(error);
@@ -267,10 +270,45 @@ exports.changePassword = async (req,res) =>{
         });
     }
 }
-exports.handleGoogleAuth = async (req,res) =>{
-    try {
-        
-    } catch (error) {
-        
-    }
+exports.handleGoogleAuth = async (accessToken, refreshToken, profile, done) => {
+      try {
+        // Try find user by googleId first
+        let user = await User.findOne({ googleId: profile.id });
+
+        if (!user) {
+          // Try find user by email (existing non-OAuth user)
+          user = await User.findOne({ emailId: profile.emails[0].value });
+
+          if (user) {
+            // If user exists but no googleId, update user to add googleId & isOAuthUser
+            user.googleId = profile.id;
+            user.isOAuthUser = true;
+            await user.save();
+          } else {
+            // If no user found, create a new one
+            user = await User.create({
+              googleId: profile.id,
+              emailId: profile.emails[0].value,
+              firstName: profile.name.givenName,
+              lastName: profile.name.familyName,
+              photoUrl: profile.photos?.[0]?.value,
+              isOAuthUser: true,
+            });
+          }
+        }
+        // Create JWT token
+        const token = jwt.sign(
+          {
+            id: user._id,
+            emailId: user.emailId,
+            membershipType: user.membershipType,
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: "24h" }
+        );
+
+        return done(null, { user, token });
+      } catch (err) {
+        return done(err, null);
+      }
 }
