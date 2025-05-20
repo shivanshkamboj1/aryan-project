@@ -4,7 +4,7 @@ import { FcGoogle } from 'react-icons/fc'
 const Google = () => {
   function handleClick(e) {
     e.preventDefault()
-    window.location.href = import.meta.env.VITE_API_URL + '/auth/google'
+    window.location.href = 
   }
 
   return (
