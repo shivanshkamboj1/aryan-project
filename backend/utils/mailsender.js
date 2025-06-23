@@ -9,8 +9,6 @@ exports.mailSender = async (email, title, body) => {
                     pass: process.env.MAIL_PASS,
                 }
             })
-
-
             const info = await transporter.sendMail({
                 from: 'Shivansh',
                 to:`${email}`,

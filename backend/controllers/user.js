@@ -4,7 +4,7 @@ const {uploadContentCloudinary} = require('../utils/contentUploader')
 
 exports.updateProfile = async(req,res)=>{
     try {
-        const {firstName,lastName,age,gender,photo,about}=req.body;
+        const {firstName,lastName,age,gender,about}=req.body;
         const {profilePic}=req.files;
         const userId = req.user.id;
         let image;

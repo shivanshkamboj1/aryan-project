@@ -4,6 +4,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const { handleGoogleAuth } = require("../controllers/auth");
 require("dotenv").config()
+
 passport.use(
   new GoogleStrategy(
     {

@@ -1,10 +1,11 @@
 import React from 'react'
 import { FcGoogle } from 'react-icons/fc'
 
+
 const Google = () => {
   function handleClick(e) {
     e.preventDefault()
-    window.location.href = 
+    
   }
 
   return (

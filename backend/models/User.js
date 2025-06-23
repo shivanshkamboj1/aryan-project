@@ -40,6 +40,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // userType:{
+    //   type: String,
+    //   enum:["lite","pro"]
+    // },
     membershipType: {
       type: String,
       enum:["lite","pro"]

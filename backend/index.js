@@ -6,14 +6,12 @@ const cors = require('cors');
 require('dotenv').config();
 require("./config/passport"); 
 const passport = require("passport");
-// const session = require("express-session");
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 const cookieparser  = require("cookie-parser")
 const {cloudinaryConnect } = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
-
-
 
 connectDB();
 app.use(cors());
@@ -29,8 +27,7 @@ app.use(
 app.use('/api/user', userRoutes);
 app.use('/api/profile', profileRoutes);
 
-// app.use(session({ secret: "keyboard cat", resave: false, saveUninitialized: false }));
-// app.use(passport.session());
+
 app.use(passport.initialize());
 app.get('/',(req,res)=>{
     res.send("api is working")

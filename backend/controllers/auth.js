@@ -144,6 +144,21 @@ exports.logout = async (req, res) => {
 
 exports.verifyOtp = async (req,res) =>{
     try {
+        const {email,otp}=req.body;
+        if(!otp){
+            return res.status(400).json({
+                success:false,
+                message:"Otp missing"
+            })
+        }
+        const isOtp = await Otp.find({otp});
+        if(isOtp.length === 0){
+            return res.status(400).json({
+                success:false,
+                message:"Otp expired regenerate new otp"
+            })
+        }
+        const result = await 
         
     } catch (error) {
         

@@ -7,8 +7,8 @@ const resetToken = new mongoose.Schema({
       required: true,
     },
     uid:{
-        type:String,
-        required:true
+      type:String,
+      required:true
     },
     expiresIn:{
       type:Date
