@@ -158,12 +158,18 @@ exports.verifyOtp = async (req,res) =>{
                 message:"Otp expired regenerate new otp"
             })
         }
-        const result = await 
+        // const result = await 
         
     } catch (error) {
-        
-    }
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+    })
 }
+
+}
+
 exports.resetPassword = async (req,res) =>{
     try {
         const { tokenId } = req.params;
@@ -325,5 +331,5 @@ exports.handleGoogleAuth = async (accessToken, refreshToken, profile, done) => {
         return done(null, { user, token });
       } catch (err) {
         return done(err, null);
-      }
+    }
 }

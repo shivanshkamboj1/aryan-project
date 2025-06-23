@@ -6,8 +6,8 @@ const redisClient = new redis({
     password:process.env.REDIS_PASSWORD
 })
 
-// redisClient.on('connect',()=>{
-//     console.log('redis connected')
-// })
+redisClient.on('connect',()=>{
+    console.log('redis connected')
+})
 
 module.exports = redisClient
