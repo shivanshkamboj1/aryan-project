@@ -1,9 +1,20 @@
 const redisClient = require("../config/redis");
-
+console.log(redisClient)
 // Participants
-const addParticipant = async (roomId, userId) => redisClient.sAdd(`participants:${roomId}`, userId);
-const removeParticipant = async (roomId, userId) => redisClient.sRem(`participants:${roomId}`, userId);
-const getParticipants = async (roomId) => redisClient.sMembers(`participants:${roomId}`);
+const addParticipant = async (roomId, userId) => redisClient.sadd(`participants:${roomId}`, userId);
+const removeParticipant = async (roomId, userId) => redisClient.srem(`participants:${roomId}`, userId);
+const getParticipants = async (roomId) => redisClient.smembers(`participants:${roomId}`);
+const deleteRoom = async (roomId) => {
+  const results = await Promise.all([
+    redisClient.del(`participants:${roomId}`),
+    redisClient.del(`restrictions:${roomId}`),
+    redisClient.del(`videoState:${roomId}`),
+    redisClient.del(`chat:${roomId}`)
+  ]);
+
+  const deleted = results.some(count => count > 0);
+  return deleted;
+};
 
 // Restrictions
 const setUserRestrictions = async (roomId, userId, restrictionsObj) =>
@@ -51,4 +62,5 @@ module.exports = {
   getRoomSettings,       // new helper
   addChatMessage,
   getLastMessages,
+  deleteRoom
 };

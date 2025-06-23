@@ -103,7 +103,7 @@ exports.login = async (req, res) => {
             expiresIn: "24h",
         }
         
-        const token = jwt.sign({ id: user._id, emailId: user.emailId,membershipType:user.membershipType },process.env.JWT_SECRET,options)
+        const token = jwt.sign({ userId: user._id, emailId: user.emailId,membershipType:user.membershipType },process.env.JWT_SECRET,options)
 
         const options2 = {
             expires: new Date(Date.now() +  24 * 60 * 60 * 1000),

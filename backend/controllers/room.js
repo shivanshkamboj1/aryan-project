@@ -1,13 +1,18 @@
 const Room = require('../models/Room')
 const { nanoid } = require("nanoid");
-const { addParticipant,getParticipants,removeParticipant,setRoomSettings  } = require('../utils/redis');
+const { addParticipant,getParticipants,removeParticipant,setRoomSettings ,deleteRoom} = require('../utils/redis');
 const User = require('../models/User')
 
 exports.createRoom = async (req, res) => {
   try {
     const { roomName } = req.body;
     const userId = req.user.userId;
-
+    if(!userId){
+      return res.status(400).json({
+        success:false,
+        message:"please login"
+      })
+    }
     if (!roomName) {
       return res.status(400).json({ success: false, message: "Room Name is required" });
     }
@@ -155,10 +160,13 @@ exports.deleteRoom = async (req, res) => {
     await Room.deleteOne({ roomId });
 
     // Delete Redis data related to this room
-    await redisClient.del(`participants:${roomId}`);
-    await redisClient.del(`restrictions:${roomId}`);
-    await redisClient.del(`videoState:${roomId}`);
-    await redisClient.del(`chat:${roomId}`);
+    const result = await deleteRoom(roomId)
+    if(!result){
+      return res.status(400).json({
+        success:false,
+        message:"cannot delete room"
+      })
+    }
 
     return res.status(200).json({ success: true, message: "Room deleted successfully" });
   } catch (error) {

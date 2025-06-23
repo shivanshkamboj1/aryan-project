@@ -2,6 +2,8 @@ const express = require('express');
 const connectDB = require('./config/database');
 const profileRoutes = require('./routes/profileRoutes')
 const userRoutes = require('./routes/userRoutes');
+const roomRoutes = require('./routes/roomRoutes')
+
 const cors = require('cors');
 require('dotenv').config();
 require("./config/passport"); 
@@ -26,6 +28,7 @@ app.use(
 )
 app.use('/api/user', userRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/room', roomRoutes);
 
 
 app.use(passport.initialize());

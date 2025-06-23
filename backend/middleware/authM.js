@@ -22,7 +22,6 @@ exports.auth = async (req, res, next) => {
 				.status(401)
 				.json({ success: false, message: "token is invalid" });
 		}
-
 		next();
 	} catch (error) {
 		return res.status(401).json({
