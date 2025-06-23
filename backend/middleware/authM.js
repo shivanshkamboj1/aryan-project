@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Room = require('../models/Room');
 
 exports.auth = async (req, res, next) => {
 	try {
@@ -20,6 +21,23 @@ exports.auth = async (req, res, next) => {
 				.status(401)
 				.json({ success: false, message: "token is invalid" });
 		}
+		next();
+	} catch (error) {
+		return res.status(401).json({
+			success: false,
+			message: `Something Went Wrong While Validating the Token`,
+		});
+	}
+};
+
+exports.isHost = async (req, res, next) => {
+	try {
+		const room = await Room.findById(req.params.id);
+		if (!room) return res.status(404).send('Room not found');
+
+		if (room.host.toString() !== req.user.id) {
+			return res.status(403).send('You are not the host of this room');
+  		}
 		next();
 	} catch (error) {
 		return res.status(401).json({

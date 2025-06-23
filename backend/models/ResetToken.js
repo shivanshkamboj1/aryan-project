@@ -11,7 +11,8 @@ const resetToken = new mongoose.Schema({
       required:true
     },
     expiresIn:{
-      type:Date
+      type:Date,
+      default:()=>new Date(Date.now()+1000*60*5)
     }
   },
   { timestamps: true }
