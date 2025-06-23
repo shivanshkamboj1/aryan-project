@@ -1,25 +1,29 @@
 const express = require('express');
 const connectDB = require('./config/database');
+require('dotenv').config();
+require("./config/passport"); 
+const {cloudinaryConnect } = require("./config/cloudinary");
+
+
 const profileRoutes = require('./routes/profileRoutes')
 const userRoutes = require('./routes/userRoutes');
 const roomRoutes = require('./routes/roomRoutes')
 
 const cors = require('cors');
-require('dotenv').config();
-require("./config/passport"); 
 const passport = require("passport");
+const cookieparser  = require("cookie-parser")
+const fileUpload = require("express-fileupload");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-const cookieparser  = require("cookie-parser")
-const {cloudinaryConnect } = require("./config/cloudinary");
-const fileUpload = require("express-fileupload");
 
 connectDB();
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(cookieparser())
+
 app.use(
 	fileUpload({
 		useTempFiles:true,

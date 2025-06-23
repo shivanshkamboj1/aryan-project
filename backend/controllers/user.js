@@ -1,5 +1,4 @@
 const User = require("../models/User")
-require("dotenv").config()
 const {uploadContentCloudinary} = require('../utils/contentUploader')
 
 exports.updateProfile = async(req,res)=>{

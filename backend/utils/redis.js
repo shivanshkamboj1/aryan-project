@@ -1,5 +1,6 @@
 const redisClient = require("../config/redis");
 console.log(redisClient)
+
 // Participants
 const addParticipant = async (roomId, userId) => redisClient.sadd(`participants:${roomId}`, userId);
 const removeParticipant = async (roomId, userId) => redisClient.srem(`participants:${roomId}`, userId);
@@ -28,6 +29,7 @@ const getAllUserRestrictions = async (roomId) => {
   return Object.fromEntries(
     Object.entries(entries).map(([userId, json]) => [userId, JSON.parse(json)])
   );
+  
 };
 
 // Video State
@@ -55,11 +57,11 @@ module.exports = {
   getParticipants,
   setUserRestrictions,
   getUserRestrictions,
-  getAllUserRestrictions, // renamed for clarity
+  getAllUserRestrictions,
   setVideoState,
   getVideoState,
-  setRoomSettings,       // new helper
-  getRoomSettings,       // new helper
+  setRoomSettings, 
+  getRoomSettings, 
   addChatMessage,
   getLastMessages,
   deleteRoom

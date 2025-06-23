@@ -3,7 +3,6 @@ const passport = require("passport");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const { handleGoogleAuth } = require("../controllers/auth");
-require("dotenv").config()
 
 passport.use(
   new GoogleStrategy(
@@ -18,5 +17,5 @@ passport.use(
 
 
 // Serialize / deserialize
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => User.findById(id).then(user => done(null, user)));
+// passport.serializeUser((user, done) => done(null, user.id));
+// passport.deserializeUser((id, done) => User.findById(id).then(user => done(null, user)));

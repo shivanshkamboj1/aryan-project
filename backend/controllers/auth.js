@@ -2,7 +2,6 @@ const User = require("../models/User")
 const ResetPassToken = require("../models/ResetToken")
 const Otp = require("../models/Otp")
 const jwt = require("jsonwebtoken")
-require("dotenv").config()
 const { v4: uuidv4 } = require('uuid');
 const {mailSender} = require("../utils/mailsender");
 const otpGenerator = require('otp-generator');

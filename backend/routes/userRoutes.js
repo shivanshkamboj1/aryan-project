@@ -10,6 +10,7 @@ router.post('/logout', logout);
 router.post('/resetpassword/:tokenId', resetPassword);
 router.post('/resetpasswordtoken', resetPasswordToken);
 router.put('/changepassword',auth, changePassword);
+
 router.get("/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"], session: false })
 );

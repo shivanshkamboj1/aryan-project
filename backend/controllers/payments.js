@@ -1,5 +1,4 @@
 const { instance } = require("../config/razorpay")
-require("dotenv").config()
 const crypto = require("crypto");
 const Payment = require("../models/Payment");
 const mongoose = require('mongoose')
