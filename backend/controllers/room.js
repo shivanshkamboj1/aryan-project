@@ -1,12 +1,14 @@
 const Room = require('../models/Room')
 const { nanoid } = require("nanoid");
-const { addParticipant,getParticipants,removeParticipant,setRoomSettings ,deleteRoom} = require('../utils/redis');
-const User = require('../models/User')
+const { addParticipant,getParticipants,removeParticipant,setRoomSettings ,deleteRoom, isUserKicked, kickUser,removeKicked,getAllKicked} = require('../utils/redis');
 
+const User = require('../models/User')
+const mongoose = require('mongoose')
 exports.createRoom = async (req, res) => {
   try {
     const { roomName } = req.body;
     const userId = req.user.userId;
+
     if(!userId){
       return res.status(400).json({
         success:false,
@@ -18,9 +20,8 @@ exports.createRoom = async (req, res) => {
     }
 
     const roomId = nanoid(5);
-    const room = await Room.create({ name: roomName, host: userId, roomId });
+    const room = (await Room.create({ name: roomName, host: userId, roomId }));
 
-    // ✅ Auto-join the host into Redis participants
     await addParticipant(roomId, userId);
 
     return res.status(201).json({ success: true, message: "Room created successfully", room });
@@ -39,11 +40,19 @@ exports.joinRoom = async (req, res) => {
 
     const room = await Room.findOne({ roomId });
     if (!room) return res.status(404).json({ success: false, message: "Room not found" });
+    
+    const participants = await getParticipants(roomId);
+    if (participants.length >= 4) {
+      return res.status(403).json({ success: false, message: "Room is full. Maximum 4 users allowed." });
+    }
+    console.log(roomId,userId,"hiiii")
+    if(isUserKicked(roomId, userId)){
+      return res.status(403).json({ success: false, message: "You have been banned from the room"});
+    }
+    await addParticipant(roomId, userId); // 
+    const updatedParticipants  = await getParticipants(roomId); // Get updated list
 
-    await addParticipant(roomId, userId); // ✅ Redis
-    const participants = await getParticipants(roomId); // Get updated list
-
-    return res.status(200).json({ success: true, message: "Room joined successfully", participants });
+    return res.status(200).json({ success: true, message: "Room joined successfully",room, participants:updatedParticipants  });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, message: "Error joining room", error });
@@ -76,12 +85,16 @@ exports.getRoom = async (req, res) => {
     if (!roomId) return res.status(400).json({ success: false, message: "Room ID is required" });
 
     const room = await Room.findOne({ roomId })
-      .populate('host', 'name email');
-
+      .populate('host', 'firstName lastName emailId');
     if (!room) return res.status(404).json({ success: false, message: "Room not found" });
 
-    const participants = await getParticipants(roomId); // Redis
+    let hostId = String(room.host._id)
 
+    let participants = await getParticipants(roomId);
+
+    participants = participants.filter((user)=>user!=hostId)
+    participants =await Promise.all(participants.map((user)=>User.findById(user).select("firstName lastName emailId")))
+   
     return res.status(200).json({ success: true, message: "Room data fetched successfully", room, participants });
   } catch (error) {
     console.error(error);
@@ -127,9 +140,9 @@ exports.updateRoom = async (req, res) => {
     }
     }
     // Redis for dynamic settings
-    if (settings && typeof settings === "object") {
-      await setRoomSettings(roomId, settings); // implement this like userRestrictions helper
-    }
+    // if (settings && typeof settings === "object") {
+    //   await setRoomSettings(roomId, settings); // implement this like userRestrictions helper
+    // }
 
     return res.status(200).json({ success: true, message: "Room updated successfully", room });
   } catch (error) {
@@ -202,5 +215,100 @@ exports.getParticipantsList = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, message: "Error fetching participants", error: error.message });
+  }
+};
+exports.kickUser  = async (req, res) => {
+  try {
+    const { roomId, userId } = req.body;
+    if (!roomId) {
+      return res.status(400).json({ success: false, message: "Room ID is required" });
+    }
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required" });
+    }
+
+    const room = await Room.findOne({ roomId });
+    if (!room) {
+      return res.status(404).json({ success: false, message: "Room not found" });
+    }
+
+    await removeParticipant(roomId, userId);
+    await kickUser(roomId, userId);
+    req.app.get('io').to(roomId).emit('userBanned', { userId });
+
+
+    return res.status(200).json({
+      success: true,
+      message: `User ${userId} banned from room ${roomId}`
+    });
+
+  } catch (error) {
+    console.error("banuser error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error banning user",
+      error: error.message
+    });
+  }
+};
+exports.unKickUser  = async (req, res) => {
+  try {
+    const { roomId, userId } = req.body;
+    if (!roomId) {
+      return res.status(400).json({ success: false, message: "Room ID is required" });
+    }
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required" });
+    }
+
+    const room = await Room.findOne({ roomId });
+    if (!room) {
+      return res.status(404).json({ success: false, message: "Room not found" });
+    }
+
+    await removeKicked(roomId, userId);
+
+
+    return res.status(200).json({
+      success: true,
+      message: `User ${userId} was un-banned from room ${roomId}`
+    });
+
+  } catch (error) {
+    console.error("unban error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error Un banning user",
+      error: error.message
+    });
+  }
+};
+exports.getAllKicked = async(req,res)=>{
+  try {
+    const { roomId} = req.body;
+    if (!roomId) {
+      return res.status(400).json({ success: false, message: "Room ID is required" });
+    }
+    const room = await Room.findOne({ roomId });
+    if (!room) {
+      return res.status(404).json({ success: false, message: "Room not found" });
+    }
+
+    const bannedUsers = await getAllKicked(roomId);
+
+
+    return res.status(200).json({
+      success: true,
+      message: `All banned user fetched succesfully`,
+      bannedUsers
+    });
+
+  } catch (error) {
+    console.error("fetch banned error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error in fetching banneduser",
+      error: error.message
+    });
   }
 };

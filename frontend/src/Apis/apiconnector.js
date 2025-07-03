@@ -1,5 +1,5 @@
 import axios from "axios"
-
+// console.log(axios)
 export const axiosInstance = axios.create({});
 
 export const apiConnector = (method, url, bodyData, headers, params) => {
@@ -9,5 +9,6 @@ export const apiConnector = (method, url, bodyData, headers, params) => {
         data: bodyData ? bodyData : null,
         headers: headers ? headers: null,
         params: params ? params : null,
+        withCredentials:true
     });
 }

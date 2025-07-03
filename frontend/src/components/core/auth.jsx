@@ -1,4 +1,4 @@
-
+import React from 'react'
 import { Navigate } from "react-router-dom"
 import { useSelector } from 'react-redux'
 function OpenRoute({ children }) {
@@ -7,7 +7,7 @@ function OpenRoute({ children }) {
   if (token === null) {
     return children
   } else {
-    return <Navigate to="/pending" />
+    return <Navigate to="/room" />
   }
 }
 

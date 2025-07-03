@@ -1,79 +1,37 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from '../config/axios'
 import Google from './Google'
 import { apiConnector } from '../Apis/apiconnector'
+import { useDispatch } from 'react-redux'
+import { login } from '../operations/apiLogic'
+
 const Login = () => {
-
-
-    const [ email, setEmail ] = useState('')
-    const [ password, setPassword ] = useState('')
-
+    const dispath  = useDispatch()
     const navigate = useNavigate()
-
-    function submitHandler(e) {
-
-        e.preventDefault()
-
-        axios.post('/users/login', {
-            email,
-            password
-        }).then((res) => {
-            console.log(res.data)
-
-            localStorage.setItem('token', res.data.token)
-
-            navigate('/')
-        }).catch((err) => {
-            console.log(err.response.data)
-        })
+    const [form,setForm]=useState({
+        emailId:'a@gmail.com',
+        password:'12345678'
+    })
+    const changehandler=(event)=>{
+        const {name,value}=event.target
+        setForm((prev)=>({
+            ...prev,[name]:value
+        }))
     }
-    useEffect(()=>{
-        const token = localStorage.getItem('token');
-        if (token) {
-        navigate('/');
-        }
-    },[navigate])
+    const submithandler = (event)=>{
+        event.preventDefault()
+        dispath(login(form.emailId,form.password,navigate))
+    }
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900">
-            <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-                <h2 className="text-2xl font-bold text-white mb-6">Login</h2>
-                <form
-                    onSubmit={submitHandler}
-                >
-                    <div className="mb-4">
-                        <label className="block text-gray-400 mb-2" htmlFor="email">Email</label>
-                        <input
-
-                            onChange={(e) => setEmail(e.target.value)}
-                            type="email"
-                            id="email"
-                            className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Enter your email"
-                        />
-                    </div>
-                    <div className="mb-6">
-                        <label className="block text-gray-400 mb-2" htmlFor="password">Password</label>
-                        <input
-                            onChange={(e) => setPassword(e.target.value)}
-                            type="password"
-                            id="password"
-                            className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Enter your password"
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="w-full p-3 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                        Login
-                    </button>
-                </form>
-                <p className="text-gray-400 mt-4">
-                    Don't have an account? <Link to="/signup" className="text-blue-500 hover:underline">Create one</Link>
-                </p>
-                <Google/>
-            </div>
+        <div >
+            <form onSubmit={submithandler}>
+                <label htmlFor='emailId'>email id</label>
+                <input id='emailId 'name='emailId' value={form.emailId} onChange={changehandler}/>
+                <label htmlFor='password'>password</label>
+                <input id='password'name='password' value={form.password} onChange={changehandler}/>
+                <button type='submit'>submit</button>
+            </form>
+            
         </div>
     )
 }

@@ -1,16 +1,18 @@
 const redisClient = require("../config/redis");
-console.log(redisClient)
+
 
 // Participants
 const addParticipant = async (roomId, userId) => redisClient.sadd(`participants:${roomId}`, userId);
 const removeParticipant = async (roomId, userId) => redisClient.srem(`participants:${roomId}`, userId);
 const getParticipants = async (roomId) => redisClient.smembers(`participants:${roomId}`);
+
 const deleteRoom = async (roomId) => {
   const results = await Promise.all([
     redisClient.del(`participants:${roomId}`),
     redisClient.del(`restrictions:${roomId}`),
     redisClient.del(`videoState:${roomId}`),
-    redisClient.del(`chat:${roomId}`)
+    redisClient.del(`chat:${roomId}`),
+    redisClient.del(`kicked:${roomId}`)
   ]);
 
   const deleted = results.some(count => count > 0);
@@ -19,13 +21,13 @@ const deleteRoom = async (roomId) => {
 
 // Restrictions
 const setUserRestrictions = async (roomId, userId, restrictionsObj) =>
-  redisClient.hSet(`restrictions:${roomId}`, userId, JSON.stringify(restrictionsObj));
+  redisClient.hset(`restrictions:${roomId}`, userId, JSON.stringify(restrictionsObj));
 const getUserRestrictions = async (roomId, userId) => {
-  const data = await redisClient.hGet(`restrictions:${roomId}`, userId);
+  const data = await redisClient.hget(`restrictions:${roomId}`, userId);
   return data ? JSON.parse(data) : null;
 };
 const getAllUserRestrictions = async (roomId) => {
-  const entries = await redisClient.hGetAll(`restrictions:${roomId}`);
+  const entries = await redisClient.hgetall(`restrictions:${roomId}`);
   return Object.fromEntries(
     Object.entries(entries).map(([userId, json]) => [userId, JSON.parse(json)])
   );
@@ -35,9 +37,9 @@ const getAllUserRestrictions = async (roomId) => {
 // Video State
 const setVideoState = async (roomId, state) => {
   const entries = Object.entries(state).map(([k, v]) => [k, v.toString()]);
-  return redisClient.hSet(`videoState:${roomId}`, entries.flat());
+  return redisClient.hset(`videoState:${roomId}`, entries.flat());
 };
-const getVideoState = async (roomId) => redisClient.hGetAll(`videoState:${roomId}`);
+const getVideoState = async (roomId) => redisClient.hgetall(`videoState:${roomId}`);
 
 // Settings
 const setRoomSettings = async (roomId, settings) => redisClient.set(`settings:${roomId}`, JSON.stringify(settings));
@@ -47,8 +49,20 @@ const getRoomSettings = async (roomId) => {
 };
 
 // Chat
-const addChatMessage = async (roomId, messageObj) => redisClient.rPush(`chat:${roomId}`, JSON.stringify(messageObj));
-const getLastMessages = async (roomId, count = 50) => redisClient.lRange(`chat:${roomId}`, -count, -1);
+const addChatMessage = async (roomId, messageObj) => redisClient.rpush(`chat:${roomId}`, JSON.stringify(messageObj));
+const getLastMessages = async (roomId, count = 50) => redisClient.lrange(`chat:${roomId}`, -count, -1);
+
+
+
+const kickUser =async(roomId, userId)=>{
+  await redisClient.sadd(`kicked:${roomId}`, userId);
+}
+const isUserKicked =async(roomId, userId)=> {
+  return await redisClient.sismember(`kicked:${roomId}`, userId);
+}
+const removeKicked = async(roomId,userId)=>await redisClient.srem(`kicked:${roomId}`,userId)
+const getAllKicked = async(roomId)=>await redisClient.smembers(`kicked:${roomId}`)
+
 
 module.exports = {
   redisClient,
@@ -64,5 +78,8 @@ module.exports = {
   getRoomSettings, 
   addChatMessage,
   getLastMessages,
-  deleteRoom
+  deleteRoom,
+  kickUser,
+  isUserKicked,
+  removeKicked
 };

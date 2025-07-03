@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 const messageSchema  = new mongoose.Schema({
-    room:{
+    roomId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room',
         required: true
     },
-    sender: {
+    senderId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
@@ -14,11 +14,7 @@ const messageSchema  = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
     }
 
-})
-moduel.exports =  mongoose.model("Message",messageSchema)
+},{timestamps:true})
+module.exports =  mongoose.model("Message",messageSchema)

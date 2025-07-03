@@ -51,7 +51,8 @@ exports.signup = async(req,res)=>{
         res.cookie("token",token,options2)
         return res.status(200).json({
             success:true,
-            message:"Sign up succesfully"
+            message:"Sign up succesfully",
+            token
         })
     } catch (error) {
         console.log(error)
@@ -101,8 +102,7 @@ exports.login = async (req, res) => {
         const options ={
             expiresIn: "24h",
         }
-        
-        const token = jwt.sign({ userId: user._id, emailId: user.emailId,membershipType:user.membershipType },process.env.JWT_SECRET,options)
+        const token = jwt.sign({ userId: user._id,firstName:user.firstName,lastName:user.lastName, emailId: user.emailId,membershipType:user.membershipType },process.env.JWT_SECRET,options)
 
         const options2 = {
             expires: new Date(Date.now() +  24 * 60 * 60 * 1000),

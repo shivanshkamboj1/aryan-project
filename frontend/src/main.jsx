@@ -6,9 +6,11 @@ import rootReducer from './reducer';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
+
 const store = configureStore({
   reducer:rootReducer,
 });
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store = {store}>

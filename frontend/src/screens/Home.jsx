@@ -1,101 +1,40 @@
 import React, { useContext, useState, useEffect } from 'react'
-
-import axios from "../config/axios"
 import { useNavigate } from 'react-router-dom'
 import Google from './Google'
+import Signup from './Signup'
+import { useDispatch, useSelector } from 'react-redux'
+import { createRoom, logout } from '../operations/apiLogic'
 
-const Home = () => {
-    const [ isModalOpen, setIsModalOpen ] = useState(false)
-    const [ projectName, setProjectName ] = useState(null)
-    const [ project, setProject ] = useState([])
+// import Navbar from '../components/common/Navbar'
 
-    const navigate = useNavigate()
-
-    function createProject(e) {
-        e.preventDefault()
-        console.log({ projectName })
-
-        axios.post('/projects/create', {
-            name: projectName,
-        })
-            .then((res) => {
-                console.log(res)
-                setIsModalOpen(false)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-    const user =true;
-    useEffect(() => {
-        axios.get('/projects/all').then((res) => {
-            setProject(res.data.projects)
-
-        }).catch(err => {
-            console.log(err)
-        })
-
-    }, [])
-
+const Home = () => {  
+    const {token}  = useSelector((state)=>state.auth)
+    const {room}  = useSelector((state)=>state.room)
+    const dispatch = useDispatch();
+    console.log(token)
+    const navigate = useNavigate();
+    const cs =' border border-black p-2' 
     return (
-        <main className='p-4'>
-           { user&&<span>{user.emailId}</span>}
-            <div className="projects flex flex-wrap gap-3">
-                <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="project p-4 border border-slate-300 rounded-md">
-                    New Project
-                    <i className="ri-link ml-2"></i>
-                </button>
-
-                {
-                    project.map((project) => (
-                        <div key={project._id}
-                            onClick={() => {
-                                navigate(`/project`, {
-                                    state: { project }
-                                })
-                            }}
-                            className="project flex flex-col gap-2 cursor-pointer p-4 border border-slate-300 rounded-md min-w-52 hover:bg-slate-200">
-                            <h2
-                                className='font-semibold'
-                            >{project.name}</h2>
-
-                            <div className="flex gap-2">
-                                <p> <small> <i className="ri-user-line"></i> Collaborators</small> :</p>
-                                {project.users.length}
-                            </div>
-
-                        </div>
-                    ))
-                }
-
-
-            </div>
-
-            {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-6 rounded-md shadow-md w-1/3">
-                        <h2 className="text-xl mb-4">Create New Project</h2>
-                        <form onSubmit={createProject}>
-                            <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700">Project Name</label>
-                                <input
-                                    onChange={(e) => setProjectName(e.target.value)}
-                                    value={projectName}
-                                    type="text" className="mt-1 block w-full p-2 border border-gray-300 rounded-md" required />
-                            </div>
-                            <div className="flex justify-end">
-                                <button type="button" className="mr-2 px-4 py-2 bg-gray-300 rounded-md" onClick={() => setIsModalOpen(false)}>Cancel</button>
-                                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md">Create</button>
-                            </div>
-                        </form>
-                    </div>
+        <div>
+            <h2>Homepage bitch</h2>
+            {/* <Navbar/> */}
+            {!token? <div>
+                    <button className= {cs} onClick={()=>navigate('/signup')}>signup</button>
+                    <button className={cs} onClick={()=>navigate('/login')}>login</button>
+                </div>: 
+                <div>
+                    {room&&<div>
+                        room name is {room.name} and id is {room.roomId}
+                        <button className={cs} onClick={navigate(`${room.roomId}`)}>go to room</button>
+                    </div>}
+                    hoooh logged in beta ji
+                    <button className={cs} onClick={()=>dispatch(logout(navigate))}>Logout</button>
+                    <button className={cs} onClick={()=>dispatch(createRoom("jalepino"))}>create room</button>
                 </div>
-            )}
-
-            
-        </main>
+            }
+            {/* <div className=' bg-black'>hi</div> */}
+            {/* <Signup/> */}
+        </div>
     )
 }
 

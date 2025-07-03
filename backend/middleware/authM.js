@@ -8,11 +8,9 @@ exports.auth = async (req, res, next) => {
 			req.cookies.token ||
 			req.body.token ||
 			req.header("Authorization").replace("Bearer ", "");
-
 		if (!token) {
 			return res.status(401).json({ success: false, message: `Token Missing` });
 		}
-
 		try {
 			const decode = await jwt.verify(token, process.env.JWT_SECRET);
 			req.user = decode;
@@ -25,7 +23,7 @@ exports.auth = async (req, res, next) => {
 	} catch (error) {
 		return res.status(401).json({
 			success: false,
-			message: `Something Went Wrong While Validating the Token`,
+			message: `Something Went Wrong While Validating the Token in auth`,
 		});
 	}
 };
@@ -42,7 +40,7 @@ exports.isHost = async (req, res, next) => {
 	} catch (error) {
 		return res.status(401).json({
 			success: false,
-			message: `Something Went Wrong While Validating the Token`,
+			message: `Something Went Wrong While Validating the Token in host`,
 		});
 	}
 };
