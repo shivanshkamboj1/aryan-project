@@ -2,7 +2,10 @@ const redisClient = require("../config/redis");
 
 
 // Participants
-const addParticipant = async (roomId, userId) => redisClient.sadd(`participants:${roomId}`, userId);
+const addParticipant = async (roomId, userId) => {
+  await redisClient.sadd(`participants:${roomId}`, userId)
+  await redisClient.expire(`participants:${roomId}`, 60 * 60 * 5);
+};
 const removeParticipant = async (roomId, userId) => redisClient.srem(`participants:${roomId}`, userId);
 const getParticipants = async (roomId) => redisClient.smembers(`participants:${roomId}`);
 

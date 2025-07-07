@@ -1,8 +1,8 @@
 import { toast } from "react-hot-toast"
-import { authEndpoints ,roomEndpoints} from "../Apis/apis"
+import { authEndpoints ,roomEndpoints} from "./apis"
 import { setLoading,setToken } from "../slices/authSlice"
 import { setUser } from "../slices/profileSlice"
-import { apiConnector } from "../Apis/apiconnector"
+import { apiConnector } from "./apiconnector"
 import { setParticipant,setRoom } from '../slices/roomSlice'
 
 

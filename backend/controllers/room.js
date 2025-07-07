@@ -46,9 +46,9 @@ exports.joinRoom = async (req, res) => {
       return res.status(403).json({ success: false, message: "Room is full. Maximum 4 users allowed." });
     }
     console.log(roomId,userId,"hiiii")
-    if(isUserKicked(roomId, userId)){
-      return res.status(403).json({ success: false, message: "You have been banned from the room"});
-    }
+    // if(isUserKicked(roomId, userId)){
+    //   return res.status(403).json({ success: false, message: "You have been banned from the room"});
+    // }
     await addParticipant(roomId, userId); // 
     const updatedParticipants  = await getParticipants(roomId); // Get updated list
 

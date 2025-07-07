@@ -5,12 +5,14 @@ require('dotenv').config();
 
 const connectDB = require('./config/database');
 require("./config/passport"); 
+require("./config/google"); 
+
 const { cloudinaryConnect } = require("./config/cloudinary");
 
 const profileRoutes = require('./routes/profileRoutes')
 const userRoutes = require('./routes/userRoutes');
 const roomRoutes = require('./routes/roomRoutes')
-const setupSocketServer = require('./socket.js');  // ✅ import your socket handler
+const setupSocketServer = require('./socket.js');
 
 const cors = require('cors');
 const passport = require("passport");
@@ -19,13 +21,13 @@ const fileUpload = require("express-fileupload");
 
 const PORT = process.env.PORT || 4000;
 
-// ✅ Create Express app
+
+
 const app = express();
 
-// ✅ Create HTTP server
 const server = http.createServer(app);
 app.use(cors({
-  origin:"http://localhost:5173",
+  origin:["http://localhost:5173","http://localhost:3000"],
   credentials:true
 }))
 // ✅ Create Socket.io server
