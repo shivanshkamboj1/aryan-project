@@ -1,7 +1,5 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const gemini_api_key = process.env.GOOGLE_API_KEY;
-
-console.log(process.env.GOOGLE_API_KEY)
 const googleAI = new GoogleGenerativeAI(gemini_api_key);
 const generationConfig = {
   temperature: 0.9,
@@ -17,7 +15,6 @@ const generate = async (prompt) => {
   try {
     const result = await geminiModel.generateContent(prompt);
     const response = result.response;
-    // console.log(response.text());
     return response.text()
   } catch (error) {
     console.log("response error", error);

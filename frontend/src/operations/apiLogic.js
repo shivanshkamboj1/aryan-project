@@ -108,10 +108,8 @@ export function createRoom(roomName,navigate){
           throw new Error(response.data.message)
         }
         dispatch(setRoom(response?.data))
-        const { room, participants } = response?.data;
-        console.log(response)
-        const toSave = { room, participants };
-        localStorage.setItem("savedRoom",JSON.stringify(toSave))
+        const { room} = response?.data;
+        localStorage.setItem("savedRoom",JSON.stringify(room))
         toast.success("createRoom succesfully")
         navigate("/room/dashboard")
       } catch (error) {
@@ -133,9 +131,9 @@ export function joinRoom(roomId,navigate){
           throw new Error(response.data.message)
         }
         dispatch(setRoom(response?.data))
-        const { room, participants } = response;
-        const toSave = { room, participants };
-        localStorage.setItem("savedRoom",JSON.stringify(toSave))
+        const { room } = response?.data;
+
+        localStorage.setItem("savedRoom",JSON.stringify(room))
         toast.success("joinRoom succesfully")
         navigate("/room/dashboard")
       } catch (error) {

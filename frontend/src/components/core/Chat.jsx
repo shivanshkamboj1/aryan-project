@@ -4,13 +4,13 @@ import ReactMarkdown from "react-markdown";
 
 const Chat = ({ roomId, userId, userName }) => {
   const [connected, setConnected] = useState(socket.connected);
-  const [controls, setControls] = useState({ mic: true, camera: true });
   const [messageInput, setMessageInput] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
 
   const chatEndRef = useRef(null);
 
   useEffect(() => {
+    socket.emit("joinRoom", { roomId, userId });
     const handleConnect = () => {
       console.log("🟢 Connected:", userName, socket.id);
       setConnected(true);
@@ -22,7 +22,6 @@ const Chat = ({ roomId, userId, userName }) => {
     };
 
     const handleNewMessage = (msg) => {
-      console.log("💬 New message:", msg);
       setChatMessages((prev) => [...prev, msg]);
       scrollToBottom();
     };
@@ -37,7 +36,6 @@ const Chat = ({ roomId, userId, userName }) => {
     socket.on("userJoined", handleUserJoined);
 
     return () => {
-      console.log("[Chat] Cleaning up listeners");
       socket.off("connect", handleConnect);
       socket.off("disconnect", handleDisconnect);
       socket.off("newMessage", handleNewMessage);
@@ -49,12 +47,12 @@ const Chat = ({ roomId, userId, userName }) => {
   const sendMessage = () => {
     if (!messageInput.trim()) return;
 
-    const check = messageInput.startsWith("@ai");
+    const isAI = messageInput.startsWith("@ai");
     const messageObj = {
       senderId: userId,
       senderName: userName,
       message: messageInput.trim(),
-      isAI: check,
+      isAI,
       createdAt: new Date().toISOString()
     };
 
@@ -67,31 +65,35 @@ const Chat = ({ roomId, userId, userName }) => {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto flex flex-col bg-white border border-gray-300 rounded shadow p-4 h-[500px]">
-      <div className="flex justify-between items-center mb-2">
-        <h2 className="text-lg font-semibold text-indigo-600">Room: {roomId}</h2>
-        <span className="text-sm">
+    <div className="flex flex-col h-full bg-white border rounded shadow p-3 overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-sm font-bold text-indigo-600">
+          Room: <span className="font-mono">{roomId}</span>
+        </h2>
+        <span className={`text-xs ${connected ? "text-green-600" : "text-red-500"}`}>
           {connected ? "🟢 Connected" : "🔴 Disconnected"}
         </span>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-3 mb-3 p-2 border border-gray-200 rounded">
+      {/* Chat Messages */}
+      <div className="flex-1 overflow-y-auto space-y-2 p-1 border rounded">
         {chatMessages.map((msg, index) => (
           <div
             key={index}
-            className={`max-w-[80%] ${
+            className={`max-w-[80%] px-3 py-2 rounded ${
               msg.senderId === userId
-                ? "self-end bg-indigo-100"
-                : "self-start bg-gray-100"
-            } rounded px-3 py-2`}
+                ? "ml-auto bg-indigo-100"
+                : "mr-auto bg-gray-100"
+            }`}
           >
-            <div className="text-sm font-medium text-gray-800 mb-1">
+            <div className="text-xs font-medium text-gray-700 mb-0.5">
               {msg.senderName}
             </div>
-            <div className="text-gray-700 text-sm">
+            <div className="text-sm text-gray-800">
               <ReactMarkdown>{msg.message}</ReactMarkdown>
             </div>
-            <div className="text-xs text-gray-500 mt-1">
+            <div className="text-[10px] text-gray-500 mt-1">
               {new Date(msg.createdAt).toLocaleTimeString()}
             </div>
           </div>
@@ -99,26 +101,24 @@ const Chat = ({ roomId, userId, userName }) => {
         <div ref={chatEndRef} />
       </div>
 
-      <div className="flex gap-2">
+      {/* Input */}
+      <div className="flex items-center gap-2 mt-2">
         <input
           type="text"
           value={messageInput}
           onChange={(e) => setMessageInput(e.target.value)}
           placeholder="Type your message..."
-          className="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200"
+          className="flex-1 border border-gray-300 w-[90%] rounded px-2 py-1 text-sm focus:outline-none focus:ring focus:ring-indigo-200"
         />
         <button
           onClick={sendMessage}
-          className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
+          className="bg-indigo-600 text-white text-sm px-3 py-1.5 rounded hover:bg-indigo-700 transition"
         >
           Send
         </button>
       </div>
 
-      <div className="mt-3 text-xs text-gray-500">
-        Mic: {controls.mic ? "✅ On" : "❌ Off"} | Camera:{" "}
-        {controls.camera ? "✅ On" : "❌ Off"}
-      </div>
+
     </div>
   );
 };

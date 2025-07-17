@@ -30,39 +30,37 @@ app.use(cors({
   origin:["http://localhost:5173","http://localhost:3000"],
   credentials:true
 }))
-// ✅ Create Socket.io server
+
 const io = socket(server, {
   cors: {
     origin: '*',
   }
 });
 
-// ✅ Connect database
+
 connectDB();
 
-// ✅ Use middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
 app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp" }));
 
-// ✅ Routes
+
 app.use('/api/user', userRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/room', roomRoutes);
 
-// ✅ Passport
 app.use(passport.initialize());
 
-// ✅ Root
+
 app.get('/', (req, res) => {
   res.send("api is working")
 });
 
-// ✅ Use your socket server logic
+
 setupSocketServer(io);
 
-// ✅ Start server
+
 server.listen(PORT, () => {
   console.log(`server is running at ${PORT}`)
 });

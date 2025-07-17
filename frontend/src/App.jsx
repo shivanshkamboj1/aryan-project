@@ -18,6 +18,7 @@ import Privateroute from './components/core/Privateroute'
 import Video from './components/core/Video'
 import About from './pages/About';
 import LandingPage from './pages/Landingpage';
+import Test from './components/core/Test';
 
 const App = () => {
 
@@ -34,6 +35,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
           <Route path='/video'element={<Video/> }></Route>
+          <Route path='/test'element={<Test/> }></Route>
           <Route path='/' element={<Home/>}>
               <Route index element={<LandingPage />} />
               <Route path='login' element={

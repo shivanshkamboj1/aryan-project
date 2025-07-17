@@ -3,6 +3,8 @@ const {addChatMessage}=require('./utils/redis')
 const generate = require('./config/google')
 
 const userIdToSocket = new Map()
+
+
 module.exports = (io) => {
   io.on("connection", (socket) => {
     console.log('User connected:', socket.id);
@@ -13,7 +15,7 @@ module.exports = (io) => {
       socket.userId = userId;
       console.log(`User ${socket.id} joined room ${roomId} as ${userId}`);
       userIdToSocket.set(userId,socket.id)
-
+      socket.to(roomId).emit('new-user-joined', { newUserId: socket.id });
       socket.to(roomId).emit('userJoined', { userId });
     });
 
@@ -45,6 +47,7 @@ module.exports = (io) => {
         await addChatMessage(roomId, aiMessage);
         io.to(roomId).emit('newMessage', aiMessage);
       }
+      console.log("message sent")
     });
     socket.on('outgoing-call',({roomId,fromOffer,fromUserId})=>{
       socket.to(roomId).emit('incoming-call',{from:fromUserId,offer:fromOffer})
