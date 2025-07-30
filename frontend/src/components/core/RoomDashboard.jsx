@@ -6,6 +6,12 @@ import { socket } from "../../operations/socket";
 import Video from './Video';
 import Chat from './Chat';
 
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+
 const RoomDashboard = () => {
   const { user } = useSelector((state) => state.profile);
   const { room } = useSelector((state) => state.room);
@@ -81,7 +87,7 @@ return (
 
     {/* Chat Panel (spans 2 rows) */}
     <div className="col-span-2 row-span-2 bg-white rounded-lg shadow p-2 overflow-y-auto flex flex-col">
-      <h3 className="text-lg font-semibold mb-2 text-indigo-600">Chat</h3>
+      <h3 className="text-lg font-semibold mb-2 text-indigo-600 text-center">Chat</h3>
       <Chat roomId={roomId} userId={userId} userName={userName} />
     </div>
 

@@ -2,62 +2,177 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { NavbarLinks } from "../../data/navlinks";
 import { logout } from "../../operations/apiLogic";
+import { MenubarDemo } from "./Menudemo";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+  navigationMenuTriggerStyle
+} from "@/components/ui/navigation-menu"
+
+import { CircleCheckIcon, CircleHelpIcon, CircleIcon } from "lucide-react"
+
+function ListItem({ title, children, href, ...props }) {
+return (
+  <li {...props}>
+    <NavigationMenuLink asChild>
+      <Link to={href}>
+        <div className="text-sm leading-none font-medium">{title}</div>
+        <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+          {children}
+        </p>
+      </Link>
+    </NavigationMenuLink>
+  </li>
+)
+}
 
 function Navbar() {
+
   const { token } = useSelector((state) => state.auth)
   const { user } = useSelector((state) => state.profile)
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch  = useDispatch()
+
   return (
-    <nav className="bg-white shadow-md px-6 py-4 flex items-center justify-between">
+
+    <nav className="flex w-9/12  justify-between mx-auto">
       
       {/* Logo */}
-      <Link to="/" className="text-2xl font-bold text-indigo-600 hover:text-indigo-800">
-        MyLogo
+      <Link
+        to="/"
+        className= "text-2xl font-bold "
+      >MyLogo
       </Link>
-      
-      {/* Links */}
-      <div className="hidden md:flex gap-6">
-        {NavbarLinks.map((nav, index) => (
-          <Link
-            key={index}
-            to={nav.path}
-            className={`text-gray-700 hover:text-indigo-600 transition-colors duration-200 ${
-              location.pathname === nav.path ? 'font-semibold text-indigo-600' : ''
-            }`}
-          >
-            {nav.title}
-          </Link>
-        ))}
-      </div>
 
-      {/* Auth Buttons / Dropdown */}
-      <div className="flex items-center gap-4">
-        {token ? (
-          <button
-            onClick={() => dispatch(logout(navigate))}
-            className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition"
-          >
-            Logout
-          </button>
-        ) : (
-          <>
-            <button
-              onClick={() => navigate('/login')}
-              className="px-4 py-2 rounded border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition"
-            >
-              Login
-            </button>
-            <button
-              onClick={() => navigate('/signup')}
-              className="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700 transition"
-            >
-              Sign Up
-            </button>
-          </>
-        )}
-      </div>
+        <NavigationMenu viewport={false}>
+        <NavigationMenuList>
+
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+              <Link to="/" className=" text-3xl">Home</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          {user&&<NavigationMenuItem>
+            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+              <Link to="/room">Room</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+}
+          {/* <NavigationMenuItem>
+            <NavigationMenuTrigger>List</NavigationMenuTrigger>
+            <NavigationMenuContent >
+              <ul className="grid w-[300px] gap-4 ">
+                <li>
+                  <NavigationMenuLink asChild>
+                    <Link to="#">
+                      <div className="font-medium">Components</div>
+                      <div className="text-muted-foreground">
+                        Browse all components in the library.
+                      </div>
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link to="#">
+                      <div className="font-medium">Documentation</div>
+                      <div className="text-muted-foreground">
+                        Learn how to use the library.
+                      </div>
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link to="#">
+                      <div className="font-medium">Blog</div>
+                      <div className="text-muted-foreground">
+                        Read our latest blog posts.
+                      </div>
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem> */}
+
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Simple</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-[200px] gap-4">
+                <li>
+                  <NavigationMenuLink asChild>
+                    <Link to="/menu">Components</Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link to="#">Documentation</Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link to="#">Blocks</Link>
+                  </NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          {user?
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>
+              <img src={user.photoUrl} width={"20px"} height={"20px"} style={{ padding: "px" }}/>
+              {user.firstName}
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-[200px] gap-4">
+                <li>
+                  <NavigationMenuLink asChild>
+                    <Link to="#" className="flex-row items-center gap-2">
+                      <CircleHelpIcon />
+                      Edit Profile
+                    </Link>
+                  </NavigationMenuLink>
+                  {/* <NavigationMenuLink asChild>
+                    <Link to="#" className="flex-row items-center gap-2">
+                      <CircleIcon />
+                      To Do
+                    </Link>
+                  </NavigationMenuLink> */}
+                  <NavigationMenuLink asChild>
+                    <Link className="flex-row items-center gap-2" onClick={()=>dispatch(logout())}>
+                      <CircleCheckIcon />
+                      LOGOUT
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>:
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Login/Signup</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-[200px] gap-4">
+                <li>
+                  <NavigationMenuLink asChild>
+                    <Link to="/login" className="flex-row items-center gap-2">
+                      <CircleHelpIcon />
+                      Login
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link to="/signup" className="flex-row items-center gap-2">
+                      <CircleIcon />
+                      Signup
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          }
+        </NavigationMenuList>
+      </NavigationMenu>
+
     </nav>
   )
 }

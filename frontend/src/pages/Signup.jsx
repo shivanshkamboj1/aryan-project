@@ -1,8 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSignupData } from '../../../frontend/src/slices/authSlice'
 import { signUp } from '../operations/apiLogic'
+
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
 
 const Signup = () => {
   const navigate = useNavigate()
@@ -14,7 +27,7 @@ const Signup = () => {
     lastName: '',
     emailId: '',
     password: ''
-  });
+  })
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -26,95 +39,88 @@ const Signup = () => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    console.log('Form submitted:', data)
     dispatch(setSignupData(data))
     dispatch(signUp(data.firstName, data.lastName, data.emailId, data.password, navigate))
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
-        <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Create Your Account</h2>
-        
-        <form onSubmit={submitHandler} className="space-y-5">
-          <div>
-            <label htmlFor="firstName" className="block text-gray-700 font-medium mb-1">
-              First Name
-            </label>
-            <input
-              id="firstName"
-              type="text"
-              name="firstName"
-              value={data.firstName}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-indigo-200"
-            />
-          </div>
+      <Card className="w-full max-w-md shadow-lg py-2">
+        <CardHeader>
+          <CardTitle>Create Your Account</CardTitle>
+          <CardDescription>
+            Fill in the details below to get started.
+          </CardDescription>
+        </CardHeader>
 
-          <div>
-            <label htmlFor="lastName" className="block text-gray-700 font-medium mb-1">
-              Last Name
-            </label>
-            <input
-              id="lastName"
-              type="text"
-              name="lastName"
-              value={data.lastName}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-indigo-200"
-            />
-          </div>
+        <form onSubmit={submitHandler} className=' py-0'>
+          <CardContent className="flex flex-col gap-3">
+            {/* First and Last Name side by side */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="firstName">First Name</Label>
+                <Input
+                  id="firstName"
+                  name="firstName"
+                  value={data.firstName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-          <div>
-            <label htmlFor="emailId" className="block text-gray-700 font-medium mb-1">
-              Email
-            </label>
-            <input
-              id="emailId"
-              type="email"
-              name="emailId"
-              value={data.emailId}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-indigo-200"
-            />
-          </div>
+              <div className="grid gap-2">
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input
+                  id="lastName"
+                  name="lastName"
+                  value={data.lastName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
 
-          <div>
-            <label htmlFor="password" className="block text-gray-700 font-medium mb-1">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              value={data.password}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-indigo-200"
-            />
-          </div>
+            {/* Email */}
+            <div className="grid gap-2">
+              <Label htmlFor="emailId">Email</Label>
+              <Input
+                id="emailId"
+                name="emailId"
+                type="email"
+                value={data.emailId}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition-colors"
-          >
-            Sign Up
-          </button>
+            {/* Password */}
+            <div className="grid gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                value={data.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </CardContent>
+
+
+          <CardFooter className="flex-col gap-2 mt-2">
+            <Button type="submit" className="w-full">
+              Sign Up
+            </Button>
+            <Button variant="outline" className="w-full">
+              Sign Up with Google
+            </Button>
+            <Button variant="link" onClick={() => navigate('/login')}>
+              Already have an account? Log in
+            </Button>
+          </CardFooter>
         </form>
-
-        <p className="text-center text-sm text-gray-600 mt-4">
-          Already have an account?{' '}
-          <button
-            onClick={() => navigate('/login')}
-            className="text-indigo-600 hover:underline"
-          >
-            Log in
-          </button>
-        </p>
-      </div>
+      </Card>
     </div>
   )
 }

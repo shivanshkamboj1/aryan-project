@@ -1,29 +1,30 @@
 import React, { useEffect, useState, useRef } from "react";
 import { socket } from "../../operations/socket";
 import ReactMarkdown from "react-markdown";
-
+import { Button } from "@/components/ui/button"
 const Chat = ({ roomId, userId, userName }) => {
-  const [connected, setConnected] = useState(socket.connected);
+  // const [connected, setConnected] = useState(socket.connected);
   const [messageInput, setMessageInput] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
-
+  console.log(chatMessages)
   const chatEndRef = useRef(null);
 
   useEffect(() => {
     socket.emit("joinRoom", { roomId, userId });
+
     const handleConnect = () => {
       console.log("🟢 Connected:", userName, socket.id);
-      setConnected(true);
+      // setConnected(true);
     };
 
     const handleDisconnect = () => {
       console.log("🔴 Disconnected");
-      setConnected(false);
+      // setConnected(false); 
     };
 
     const handleNewMessage = (msg) => {
       setChatMessages((prev) => [...prev, msg]);
-      scrollToBottom();
+      // scrollToBottom();
     };
 
     const handleUserJoined = ({ userId }) => {
@@ -63,25 +64,18 @@ const Chat = ({ roomId, userId, userName }) => {
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessages]);
   return (
-    <div className="flex flex-col h-full bg-white border rounded shadow p-3 overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-2">
-        <h2 className="text-sm font-bold text-indigo-600">
-          Room: <span className="font-mono">{roomId}</span>
-        </h2>
-        <span className={`text-xs ${connected ? "text-green-600" : "text-red-500"}`}>
-          {connected ? "🟢 Connected" : "🔴 Disconnected"}
-        </span>
-      </div>
-
+    <div className="flex flex-col h-full bg-white justify-between">
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto space-y-2 p-1 border rounded">
+      <div className="flex flex-col overflow-y-auto gap-2" style={{ maxHeight: "70vh" }}>
+
         {chatMessages.map((msg, index) => (
           <div
             key={index}
-            className={`max-w-[80%] px-3 py-2 rounded ${
+            className={`max-w-[80%]  px-3 py-2 rounded ${
               msg.senderId === userId
                 ? "ml-auto bg-indigo-100"
                 : "mr-auto bg-gray-100"
@@ -102,23 +96,25 @@ const Chat = ({ roomId, userId, userName }) => {
       </div>
 
       {/* Input */}
-      <div className="flex items-center gap-2 mt-2">
+      <div className="flex items-center h-[40px] w-full">
         <input
           type="text"
           value={messageInput}
           onChange={(e) => setMessageInput(e.target.value)}
           placeholder="Type your message..."
-          className="flex-1 border border-gray-300 w-[90%] rounded px-2 py-1 text-sm focus:outline-none focus:ring focus:ring-indigo-200"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              sendMessage();
+            }
+          }}
+          className="flex-1 border h-full  border-gray-300 w-[90%] rounded px-2 py-1 text-sm focus:outline-none focus:ring focus:ring-indigo-200"
         />
-        <button
-          onClick={sendMessage}
-          className="bg-indigo-600 text-white text-sm px-3 py-1.5 rounded hover:bg-indigo-700 transition"
-        >
+        <Button
+            onClick={sendMessage}
+          >
           Send
-        </button>
+        </Button>
       </div>
-
-
     </div>
   );
 };

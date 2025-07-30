@@ -8,11 +8,17 @@ exports.auth = async (req, res, next) => {
 			req.cookies.token ||
 			req.body.token ||
 			req.header("Authorization").replace("Bearer ", "");
+
+		const message = req.header("Verify")
 		if (!token) {
 			return res.status(401).json({ success: false, message: `Token Missing` });
 		}
 		try {
 			const decode = await jwt.verify(token, process.env.JWT_SECRET);
+			if(message){
+			return res.status(200)
+				.json({ success: true, message: "token is valid" });
+			}
 			req.user = decode;
 			// console.log(decode)
 		} catch (error) {

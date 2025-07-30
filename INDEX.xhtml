@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><link type="text/css" rel="stylesheet" href="/tungsten/javax.faces.resource/theme.css.xhtml?ln=primefaces-start" /><link type="text/css" rel="stylesheet" href="/tungsten/javax.faces.resource/bootstrap1.min.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/tungsten/javax.faces.resource/css/theme.css.xhtml?ln=bsf" /><link type="text/css" rel="stylesheet" href="/tungsten/javax.faces.resource/dataTables.bootstrap.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/tungsten/javax.faces.resource/logo-nav.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/tungsten/javax.faces.resource/primefaces.css.xhtml?ln=primefaces&amp;v=5.2" /><link type="text/css" rel="stylesheet" href="/tungsten/javax.faces.resource/sb-admin-2.css.xhtml?ln=css" /><link type="text/css" rel="stylesheet" href="/tungsten/javax.faces.resource/style.css.xhtml?ln=css" /><script type="text/javascript" src="/tungsten/javax.faces.resource/jquery/jquery.js.xhtml?ln=primefaces&amp;v=5.2"></script><script type="text/javascript" src="/tungsten/javax.faces.resource/jquery/jquery-plugins.js.xhtml?ln=primefaces&amp;v=5.2"></script><script type="text/javascript" src="/tungsten/javax.faces.resource/primefaces.js.xhtml?ln=primefaces&amp;v=5.2"></script><link type="text/css" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" /><!--[if lt IE 9]><script src="/tungsten/javax.faces.resource/js/html5shiv.js.xhtml?ln=bsf"></script><script src="/tungsten/javax.faces.resource/js/respond.js.xhtml?ln=bsf"></script><![endif]--><script type="text/javascript">if(window.PrimeFaces){}</script>
+	  <meta http-equiv="X-UA-Compatible" content="IE=8;FF=3;OtherUA=4" />
+		<link rel="icon" type="image/png" href="../images/bsnl_logo-min.png" />
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>BSNL CUSTOMER CARE
+		</title>
+     	<script type="text/javascript" src="../../resources/js/bootstrap.min,metisMenu.min,sb-admin-2,jquery.dataTables.min,dataTables.bootstrap.min.js?_expirecache_=1"></script>
+
+		<style type="text/css">
+.ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap,
+	.ui-layout-bd, .ui-layout-hd {
+	border: none !important;
+	gutter: 0 !important;
+}
+
+.ui-widget {
+	font-size: 90%;
+	font-family:sans-serif;
+}
+
+.disable-scroll .ui-dialog-content {
+  overflow: hidden !important;
+} 
+
+.ui-widget-header{
+background:#428bca; !important; 
+align-self:center !important;
+font-size:x-small !important;
+}
+
+.header {
+	background-color: #b0c4de !important;
+}
+
+.ui-grid {
+	margin-bottom: 10px;
+}
+
+.ui-grid .ui-grid-row div {
+	background-color: #E0E0E0;
+	text-align: center;
+	border: 1px solid white;
+	padding: 10px 0px;
+}
+
+.ui-menubutton .ui-state-default .ui-icon {
+	width: 5px;
+	
+}
+
+td.right {
+	text-align: right;
+	vertical-align: bottom;
+}
+
+#tabId {
+	background-color: blue;
+}
+
+.jqplot-series-canvas {
+	/* background-image: url('../images/blue_abstract_background_310971.jpg'); */
+	background-position: center;
+	background-size: 160%;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger{
+         width:25px;
+         background:#428bca;
+        
+          }
+          
+          .ui-state-hover .ui-icon {
+
+background-image:url("/tungsten/javax.faces.resource/images/ui-icons_e0fdff_256x240.png.xhtml?ln=primefaces-start") !important;
+
+}
+
+.table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td{
+background-color:#428bca;
+color:white;
+}
+
+.panel-primary>.panel-heading{
+background-image:none;
+
+}
+          
+.modal-header {
+	padding: 9px 15px;
+	border-bottom: 1px solid #eee;
+	background-color: #2e6da4;
+	color: white;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+h4 {
+	font-size: 20px;
+}
+
+
+.navbar-toggle{
+border:1px solid white
+
+}
+
+.icon-bar{
+border:1px solid white;
+
+}
+</style></head>
+
+	<script type="text/javascript">
+		function start() {
+			PF('statusDialog').show();
+		}
+
+		function stop() {
+			PF('statusDialog').hide();
+		}
+		
+		function openWin() {
+		    window.open("contactUs.xhtml");
+		}
+		
+		 $(function () {
+		      $(document).bind('contextmenu', function (e) {
+		    	 
+		        e.preventDefault();
+		       
+		      });
+
+		    });
+		
+		  $(document).ready(function() {
+		        $('#dataTables-example').DataTable({
+		        	  responsive:true
+		        });
+		    });
+		  
+		  $(document).ready(function() {
+		        $('#trackmyservice').DataTable({
+		        	  responsive:true
+		        });
+		    });
+		  
+		  
+		  $(document).ready(function() {
+		        $('#paymenthistory').DataTable({
+		        	  responsive:true
+		        });
+		    });
+		  
+		  $(document).ready(function() {
+		        $('#loyaltyhistory').DataTable({
+		        	  responsive:true
+		        });
+		    });
+		  
+		  $(document).ready(function() {
+		        $('#trackmycomplaints').DataTable({
+		        	  responsive:true
+		        });
+		    });
+		
+		  $(document).ready(function() {
+		        $('#trackmyorder').DataTable({
+		        	  responsive:true
+		        });
+		    });
+		  
+		  $(document).ready(function() {
+		        $('#serviceProvision').DataTable({
+		        	  responsive:true
+		        });
+		    });
+		  
+		  $(document).ready(function() {
+		        $('#myOrder').DataTable({
+		        	  responsive:true
+		        });
+		    });
+		  
+	
+		  
+
+		
+		  
+		 
+	
+	</script>
+	 <script type="text/javascript">
+
+   $(document).ready(function(){
+	    $("#myPopover").popover({
+	        title: '<h4 class="custom-title"><span class="glyphicon glyphicon-info-sign"></span> Confirmation</h4>',
+	        content : "Are u sure? <button>Ok</button> <button>Cancel</button>",
+	        html: true
+	    }); 
+	});
+   
+   function logoutConfirmation(){
+	   $('#myModalLogout').modal('show');
+   }
+   
+	</script>
+	
+			<script type="text/javascript">
+
+var IDLE_TIMEOUT = 360; //seconds
+var _idleSecondsTimer = null;
+var _idleSecondsCounter = 0;
+
+
+document.onclick = function() {
+    _idleSecondsCounter = 0;
+};
+
+
+_idleSecondsTimer = window.setInterval(CheckIdleTime, 2000);
+
+function CheckIdleTime() {
+    _idleSecondsCounter=_idleSecondsCounter+2;
+    var oPanel = document.getElementById("SecondsUntilExpire");
+    if (oPanel)
+        oPanel.innerHTML = (IDLE_TIMEOUT - _idleSecondsCounter) + "";
+   if (_idleSecondsCounter >= IDLE_TIMEOUT-60 ) {
+clearInterval(_idleSecondsCounter);
+$('#myModalTimeOut').modal({backdrop: 'static', keyboard: false});
+
+   }}
+
+
+function loginPage() {
+	window.location.href = "/tungsten/UI/facelets/login.xhtml"
+
+}
+</script>
+	
+	<script src="/tungsten/UI/js/validate.js"></script><body>
+<!-- Session timeout alert  -->
+<div id="myModalTimeOut" class="modal fade" role="dialog">
+				<div class="modal-dialog modal-sm">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Confirmation?</h4>
+						</div>
+						<div class="modal-body">
+							Your session will expire in 1 minute, press continue to remain logged in. Else you will be redirected to Login page. <br /><br />
+<form id="alertF" name="alertF" method="post" action="/tungsten/UI/facelets/bbCumulativeUnbilled.xhtml" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="alertF" value="alertF" />
+
+							<input id="R" type="button" value="Continue" onclick="window.location.reload();return false;" style="background:#2B547E;color:white;">
+							</input><input type="hidden" name="javax.faces.ViewState" id="j_id1:javax.faces.ViewState:0" value="-5584697466361006155:-4186683132463205473" autocomplete="off" />
+</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+<!-- End Session timeout alert  -->
+
+<!-- Logout confirmation message  -->
+<div id="myModalLogout" class="modal fade" role="dialog">
+				<div class="modal-dialog modal-sm">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">×</button>
+							<h4 class="modal-title">Logout Confirmation?</h4>
+						</div>
+						<div class="modal-body">
+						Kindly logout from Facebook and Google account from this browser as well in order to avoid any unintended logins from your CWSC account.
+							 <br /><br />
+<form id="alertLogout" name="alertLogout" method="post" action="/tungsten/UI/facelets/bbCumulativeUnbilled.xhtml" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="alertLogout" value="alertLogout" />
+<button id="alertLogout:j_idt17" name="alertLogout:j_idt17" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onclick="PrimeFaces.monitorDownload(start, stop);" style="background:#2B547E;color:white;" type="submit"><span class="ui-button-text ui-c">OK</span></button><script id="alertLogout:j_idt17_s" type="text/javascript">PrimeFaces.cw("CommandButton","widget_alertLogout_j_idt17",{id:"alertLogout:j_idt17",widgetVar:"widget_alertLogout_j_idt17"});</script>
+							         
+																					
+						<input type="hidden" name="javax.faces.ViewState" id="j_id1:javax.faces.ViewState:0" value="-5584697466361006155:-4186683132463205473" autocomplete="off" />
+</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+<!--End Logout confirmation message -->
+			
+			<!-- Logout confirmation message  -->
+<form id="banner" name="banner" method="post" action="/tungsten/UI/facelets/bbCumulativeUnbilled.xhtml" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="banner" value="banner" />
+
+
+			<nav class="navbar navbar-light  navbar-static-top" role="navigation" style="background-color: #428bca;">
+
+				<div class="navbar-header">
+					<a class="navbar-brand"><table width="100%">
+<tbody>
+<tr>
+<td>
+							<img src="../images/bsnl_Logo-New.png" alt="BSNL" style="background:#2B547E;width:53px;height:53px;" />
+							<span style="color:white;vertical-align:-3px;">      भारत संचार निगम लिमिटेड  
+								BHARAT SANCHAR NIGAM LIMITED</span></td>
+</tr>
+</tbody>
+</table>
+ </a>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+					</button>
+				</div>
+				<!-- /.navbar-header -->
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a id="banner:j_idt24" href="#" class="ui-commandlink ui-widget" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt24':'banner:j_idt24'}).submit('banner');return false;">
+							<i class="fa fa fa-home fa-2x" style="color:white;"></i>
+							<span style="color:white;">  Home</span></a></li>
+
+					<li><a id="banner:j_idt27" href="#" class="ui-commandlink ui-widget" onclick="openWin();PrimeFaces.ab({s:&quot;banner:j_idt27&quot;});return false;">
+							<i class="fa fa fa-envelope fa-2x" style="color:white;"></i>
+							<span style="color:white;">  Contact Us</span></a></li>
+
+
+					<li><a href="#" class="myclass" onclick="logoutConfirmation()">
+							<i class="fa fa-power-off fa-2x" style="color:white;"></i>
+							<span style="color:white;">  Log out</span></a></li>
+
+
+				</ul><html xmlns="http://www.w3.org/1999/xhtml">
+
+<script type="text/javascript">
+		function start() {
+			PF('statusDialog').show();
+		}
+
+		function stop() {
+			PF('statusDialog').hide();
+		}		
+		function openWin1() {
+		    window.open("http://redirect1bbportal.bsnl.co.in/");
+		}
+		
+		
+		function openPaymentPortal() {
+		    window.open("http://portal.bsnl.in");
+		}
+</script>
+
+
+<div class="navbar-light sidebar navbar-collapse" role="navigation" id="panelmenu">
+	<ul class="nav" id="side-menu">
+		<li> <a class="myclass" style="background-color:darkslategrey;text-decoration:none;color:white;font-size:15px;"><b>Options</b></a></li>
+		<li><a href="#" class="myclass">Manage Account<span class="fa arrow"></span>
+		</a>
+			<ul class="nav nav-second-level">
+				<li><a id="banner:j_idt32" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt32':'banner:j_idt32'}).submit('banner');return false;">My Accounts</a></li>
+
+			</ul></li>
+
+
+		<li><a href="#" class="myclass">My Services<span class="fa arrow"></span>
+		</a>
+			<ul class="nav nav-second-level">
+				<li><a id="banner:j_idt34" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt34':'banner:j_idt34'}).submit('banner');return false;">My Facilities</a></li>
+			</ul></li>
+		<li><a href="#" class="myclass">Modify Services<span class="fa arrow"></span>
+		</a>
+			<ul class="nav nav-second-level">
+				<li><a id="banner:j_idt36" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.addSubmitParam('banner',{'banner:j_idt36':'banner:j_idt36'}).submit('banner');return false;">Upgrade Your Plan</a></li>
+				<li><a id="banner:j_idt38" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.addSubmitParam('banner',{'banner:j_idt38':'banner:j_idt38'}).submit('banner');return false;">Change of Features</a></li>
+				<li><a id="banner:j_idt40" href="#" class="ui-commandlink ui-widget myclass" data-pfconfirmcommand="PrimeFaces.ab({s:&quot;banner:j_idt40&quot;});return false;" onclick="PrimeFaces.confirm({source:&quot;banner:j_idt40&quot;,header:&quot;Confirmation&quot;,message:&quot;You will be able to change the Broadband password from your registered IP only.Are you sure you want to continue?&quot;,icon:&quot;ui-icon-alert&quot;});return false;">Change BB Password</a></li>
+
+
+				<li><a id="banner:j_idt42" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt42':'banner:j_idt42'}).submit('banner');return false;">Shift a Landline</a></li>
+						
+						<li><a id="banner:j_idt44" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt44':'banner:j_idt44'}).submit('banner');return false;">Add To Centrex/IP Centrex</a></li>
+				<li><a id="banner:j_idt46" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt46':'banner:j_idt46'}).submit('banner');return false;">Remove From Centrex/IP Centrex</a></li>
+					
+				<li><a id="banner:j_idt48" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt48':'banner:j_idt48'}).submit('banner');return false;">Track My Service Change</a></li>
+			</ul></li>
+		<li><a href="#" class="myclass">Register Complaints<span class="fa arrow"></span>
+		</a>
+			<ul class="nav nav-second-level">
+				<li><a id="banner:j_idt50" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt50':'banner:j_idt50'}).submit('banner');return false;">Raise Billing Complaint</a></li>
+				<li><a id="banner:j_idt52" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt52':'banner:j_idt52'}).submit('banner');return false;">Raise Technical Complaint</a></li>
+				<li><a id="banner:j_idt54" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt54':'banner:j_idt54'}).submit('banner');return false;">Track My Complaints</a></li>
+			</ul></li>
+
+
+
+
+		<li><a href="#" class="myclass">Update Billing Profile <span class="fa arrow"></span>
+		</a>
+			<ul class="nav nav-second-level">
+				<li><a id="banner:j_idt56" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'changeType':'Bill Media Type','banner:j_idt56':'banner:j_idt56'}).submit('banner');return false;">Bill Media Type</a></li>
+				<li><a id="banner:j_idt59" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'changeType':'Bill Statement Type','banner:j_idt59':'banner:j_idt59'}).submit('banner');return false;">Bill Statement Type</a></li>
+				<li><a id="banner:j_idt62" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'changeType':'Billing Address Update','banner:j_idt62':'banner:j_idt62'}).submit('banner');return false;">Billing Address Update</a></li>
+				<li><a id="banner:j_idt65" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'changeType':'Billing Frequency Update','banner:j_idt65':'banner:j_idt65'}).submit('banner');return false;">Billing Frequency Update</a></li>
+				<li><a id="banner:j_idt68" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'changeType':'Method Of Payment','banner:j_idt68':'banner:j_idt68'}).submit('banner');return false;">Method Of Payment</a></li>
+				<li><a id="banner:j_idt71" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt71':'banner:j_idt71'}).submit('banner');return false;">Track My Service Request</a></li>
+			</ul></li>
+
+		<li><a href="#" class="myclass">Bills &amp; Payments<span class="fa arrow"></span>
+		</a>
+			<ul class="nav nav-second-level">
+				<li><a id="banner:j_idt73" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt73':'banner:j_idt73'}).submit('banner');return false;">View Bills</a></li>
+				<li><a id="banner:j_idt75" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt75':'banner:j_idt75'}).submit('banner');return false;">Make a Payment</a></li>
+				<li><a id="banner:j_idt77" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt77':'banner:j_idt77'}).submit('banner');return false;">Payment History</a></li>
+			</ul></li>
+
+		<li><a href="#" class="myclass"> My Usage<span class="fa arrow" styleClass="myclass"></span>
+		</a>
+			<ul class="nav nav-second-level">
+				<li><a id="banner:j_idt79" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.ab({s:&quot;banner:j_idt79&quot;});return false;">Usage<span class="fa arrow"></span></a>
+					<ul class="nav nav-third-level">
+						<li><a id="banner:j_idt82" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt82':'banner:j_idt82'}).submit('banner');return false;">Cumulative Billed Usage</a></li>
+						<li><a id="banner:j_idt84" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt84':'banner:j_idt84'}).submit('banner');return false;">Cumulative Unbilled Usage</a></li>
+						<li><a id="banner:j_idt86" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt86':'banner:j_idt86'}).submit('banner');return false;">Billed Call Details</a></li>
+						<li><a id="banner:j_idt88" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt88':'banner:j_idt88'}).submit('banner');return false;">Unbilled Call Details</a></li>
+					</ul></li>
+
+
+				<li><a id="banner:j_idt90" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.ab({s:&quot;banner:j_idt90&quot;});return false;">
+										Broadband Usage<span class="fa arrow"></span></a>
+					<ul class="nav nav-third-level">
+						<li><a id="banner:j_idt93" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt93':'banner:j_idt93'}).submit('banner');return false;">Cumulative Billed Usage</a></li>
+						<li><a id="banner:j_idt95" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt95':'banner:j_idt95'}).submit('banner');return false;">Cumulative Unbilled Usage</a></li>
+						<li><a id="banner:j_idt97" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt97':'banner:j_idt97'}).submit('banner');return false;">Session Billed Usage</a></li>
+						<li><a id="banner:j_idt99" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt99':'banner:j_idt99'}).submit('banner');return false;">Session Unbilled Usage</a></li>
+					</ul></li>
+
+			</ul></li>
+
+		<li><a href="#" class="myclass">Manage Loyalty Points<span class="fa arrow"></span>
+		</a>
+			<ul class="nav nav-second-level">
+
+				<li><a id="banner:j_idt101" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt101':'banner:j_idt101'}).submit('banner');return false;">Redeem Loyalty Points</a></li>
+				<li><a id="banner:j_idt103" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt103':'banner:j_idt103'}).submit('banner');return false;">Loyalty Reedem History</a></li>
+
+
+			</ul></li>
+		<li><a href="#" class="myclass">Account Profile<span class="fa arrow"></span>
+		</a>
+			<ul class="nav nav-second-level">
+
+				<li><a id="banner:j_idt105" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt105':'banner:j_idt105'}).submit('banner');return false;">View Profile</a></li>
+				<li><a id="banner:j_idt107" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt107':'banner:j_idt107'}).submit('banner');return false;">Edit Profile</a></li>
+				<li><a id="banner:j_idt109" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt109':'banner:j_idt109'}).submit('banner');return false;">Method of Communication</a></li>
+
+			</ul></li>
+
+		<li><a href="#" class="myclass">New Services <span class="fa arrow"></span>
+		</a>
+			<ul class="nav nav-second-level">
+				<li><a id="banner:j_idt111" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt111':'banner:j_idt111'}).submit('banner');return false;">Request for a New Services</a></li>
+				<li><a id="banner:j_idt113" href="#" class="ui-commandlink ui-widget myclass" onclick="PrimeFaces.monitorDownload(start, stop);PrimeFaces.addSubmitParam('banner',{'banner:j_idt113':'banner:j_idt113'}).submit('banner');return false;">Track My New Services</a></li>
+			</ul></li>
+		<!-- &lt;li&gt;&lt;p:commandLink value="Voluntary Closure"
+				styleClass="myclass" action="voluntaryClosure?faces-redirect=true"
+				icon="ui-icon-pin-w"
+				onclick="PrimeFaces.monitorDownload(start, stop)" /&gt;&lt;/li&gt; -->
+
+		<li><a href="https://218.248.233.131/changeLaguage.action?request_locale=en_US" target="_blank" class="myclass">Schedule Conference</a></li>
+			
+	</ul>
+			
+	
+	
+	<!--                     &lt;ui:include src="/UI/facelets/panelMenu.xhtml" /&gt;  -->
+
+
+	<!-- /.sidebar-collapse -->
+</div><div id="banner:j_idt119" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow ui-hidden-container"><div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top"><span id="banner:j_idt119_title" class="ui-dialog-title">Loading..</span></div><div class="ui-dialog-content ui-widget-content"><img id="banner:j_idt120" src="../images/design/circle2.gif?pfdrid_c=true" alt="" /></div></div><script id="banner:j_idt119_s" type="text/javascript">$(function(){PrimeFaces.cw("Dialog","statusDialog",{id:"banner:j_idt119",widgetVar:"statusDialog",draggable:false,resizable:false,modal:true});});</script><div id="banner:j_idt121" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow ui-hidden-container"><div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top"><span id="banner:j_idt121_title" class="ui-dialog-title">Demand Note Details</span><a href="#" class="ui-dialog-titlebar-icon ui-dialog-titlebar-close ui-corner-all"><span class="ui-icon ui-icon-closethick"></span></a></div><div class="ui-dialog-content ui-widget-content"><span id="banner:content"></span></div></div><script id="banner:j_idt121_s" type="text/javascript">$(function(){PrimeFaces.cw("Dialog","demandnote",{id:"banner:j_idt121",widgetVar:"demandnote",width:"300",height:"200",closeOnEscape:true});});</script><script id="banner:j_idt122_s" type="text/javascript">$(function(){PrimeFaces.cw("ConfirmDialog","widget_banner_j_idt122",{id:"banner:j_idt122",widgetVar:"widget_banner_j_idt122",showEffect:"fade",hideEffect:"fade",global:true});});</script><div id="banner:j_idt122" class="ui-confirm-dialog ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow ui-hidden-container"><div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top"><span class="ui-dialog-title"></span><a href="#" class="ui-dialog-titlebar-icon ui-dialog-titlebar-close ui-corner-all"><span class="ui-icon ui-icon-closethick"></span></a></div><div class="ui-dialog-content ui-widget-content"><span class="ui-icon ui-confirm-dialog-severity"></span><span class="ui-confirm-dialog-message"></span></div><div class="ui-dialog-buttonpane ui-dialog-footer ui-widget-content ui-helper-clearfix"><button id="banner:j_idt123" name="banner:j_idt123" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ui-confirmdialog-yes" onclick="openWin1();PrimeFaces.ab({s:&quot;banner:j_idt123&quot;});return false;" type="submit"><span class="ui-button-icon-left ui-icon ui-c ui-icon-check"></span><span class="ui-button-text ui-c">Change Password</span></button><script id="banner:j_idt123_s" type="text/javascript">PrimeFaces.cw("CommandButton","widget_banner_j_idt123",{id:"banner:j_idt123",widgetVar:"widget_banner_j_idt123"});</script><button id="banner:j_idt124" name="banner:j_idt124" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ui-confirmdialog-no" type="button"><span class="ui-button-icon-left ui-icon ui-c ui-icon-close"></span><span class="ui-button-text ui-c">No</span></button><script id="banner:j_idt124_s" type="text/javascript">PrimeFaces.cw("CommandButton","widget_banner_j_idt124",{id:"banner:j_idt124",widgetVar:"widget_banner_j_idt124"});</script></div></div>
+
+
+<style>
+.ui-widget-header {
+	background: #428bca;
+	align-self: center;
+	font-size: x-small;
+}
+
+.nav>li>a:hover, .nav>li>a:focus,.sidebar ul li a.active:hover {
+	background-color: darkslategrey;
+	text-decoration: none;
+	color: white;
+}
+
+.myclass {
+	background-color: #428bca;
+	color: white;
+}
+
+.ui-tagcloud li a {
+	background-color: white;
+}
+
+.sidebar ul li a.active{
+background-color: #428bca;
+
+}
+</style>
+
+
+</html>
+
+
+			</nav><input type="hidden" name="javax.faces.ViewState" id="j_id1:javax.faces.ViewState:0" value="-5584697466361006155:-4186683132463205473" autocomplete="off" />
+</form>
+		<div id="page-wrapper">
+			<div class="row">
+				<!--         &lt;div class="col-lg-3"&gt; -->
+
+				<!--             &lt;div class="sidebar-nav"&gt; -->
+				<!--                     &lt;ul class="nav" id="side-menu"&gt; -->
+				<!--                          &lt;ui:include src="/UI/facelets/panelMenu.xhtml" /&gt;   -->
+				<!--                         &lt;/ul&gt; -->
+				<!--                         &lt;/div&gt; -->
+				<!--                         &lt;/div&gt; -->
+
+
+
+
+				<div class="col-lg-9">
+		<style>
+	
+	.ui-state-default{
+	background:#2e6da4;
+	}
+	
+	.ui-widget-header{
+		background:#2e6da4;
+	}
+	
+	</style>
+		<div class="panel panel-primary">
+                        <div class="panel-heading">
+                    BB Cumulative Unbilled Usage              
+                        </div>
+                        <div class="panel-body">
+<form id="j_idt129" name="j_idt129" method="post" action="/tungsten/UI/facelets/bbCumulativeUnbilled.xhtml" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="j_idt129" value="j_idt129" />
+<fieldset id="j_idt129:bcub" class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-hidden-container" style="border:0;" data-widget="widget_j_idt129_bcub"><div class="ui-fieldset-content"><div id="j_idt129:j_idt130" class="ui-messages ui-widget" aria-live="polite"></div><span style=" text-align: center;" style=" text-align: center;"></span><table cellpadding="5">
+<tbody>
+<tr>
+<td><label id="j_idt129:j_idt133" class="ui-outputlabel ui-widget" for="j_idt129:eventSource_focus">Telephone no/Service ID:<span class="ui-outputlabel-rfi">*</span></label></td>
+<td><div id="j_idt129:eventSource" class="ui-selectonemenu ui-widget ui-state-default ui-corner-all" style="width:170px"><div class="ui-helper-hidden-accessible"><input id="j_idt129:eventSource_focus" name="j_idt129:eventSource_focus" type="text" autocomplete="off" /></div><div class="ui-helper-hidden-accessible"><select id="j_idt129:eventSource_input" name="j_idt129:eventSource_input" tabindex="-1" onchange="PrimeFaces.bcn(this,event,[function(event){PrimeFaces.ab({s:&quot;j_idt129:eventSource&quot;,e:&quot;valueChange&quot;,f:&quot;j_idt129&quot;,p:&quot;j_idt129:eventSource&quot;,u:&quot;j_idt129&quot;});},function(event){PrimeFaces.ab({s:&quot;j_idt129:eventSource&quot;,e:&quot;valueChange&quot;,f:&quot;j_idt129&quot;,p:&quot;j_idt129:eventSource&quot;});}]);"><option value="">Select Telephone no/Service ID</option><option value="0184-2986600" selected="selected">0184-2986600( BHARAT FIBER VOICE )</option><option value="0184-2986600" selected="selected">0184-2986600( BHARAT FIBER BB )</option></select></div><label id="j_idt129:eventSource_label" class="ui-selectonemenu-label ui-inputfield ui-corner-all">&nbsp;</label><div class="ui-selectonemenu-trigger ui-state-default ui-corner-right"><span class="ui-icon ui-icon-triangle-1-s ui-c"></span></div><div id="j_idt129:eventSource_panel" class="ui-selectonemenu-panel ui-widget-content ui-corner-all ui-helper-hidden ui-shadow"><div class="ui-selectonemenu-items-wrapper" style="height:auto"><ul class="ui-selectonemenu-items ui-selectonemenu-list ui-widget-content ui-widget ui-corner-all ui-helper-reset"><li class="ui-selectonemenu-item ui-selectonemenu-list-item ui-corner-all" data-label="Select Telephone no/Service ID">Select Telephone no/Service ID</li><li class="ui-selectonemenu-item ui-selectonemenu-list-item ui-corner-all" data-label="0184-2986600( BHARAT FIBER VOICE )">0184-2986600( BHARAT FIBER VOICE )</li><li class="ui-selectonemenu-item ui-selectonemenu-list-item ui-corner-all" data-label="0184-2986600( BHARAT FIBER BB )">0184-2986600( BHARAT FIBER BB )</li></ul></div></div></div><script id="j_idt129:eventSource_s" type="text/javascript">$(function(){PrimeFaces.cw("SelectOneMenu","widget_j_idt129_eventSource",{id:"j_idt129:eventSource",widgetVar:"widget_j_idt129_eventSource",behaviors:{valueChange:function(ext) {PrimeFaces.bcnu(ext,[function(ext) {PrimeFaces.ab({s:"j_idt129:eventSource",e:"valueChange",f:"j_idt129",p:"j_idt129:eventSource",u:"j_idt129"},ext);},function(ext) {PrimeFaces.ab({s:"j_idt129:eventSource",e:"valueChange",f:"j_idt129",p:"j_idt129:eventSource"},ext);}]);}}});});</script></td>
+</tr>
+</tbody>
+</table>
+<table cellpadding="10">
+<tbody>
+<tr>
+<td><label id="j_idt129:j_idt137" class="ui-outputlabel ui-widget" for="j_idt129:fromDate_input">From:      <span class="ui-outputlabel-rfi">*</span></label></td>
+<td><span id="j_idt129:fromDate"><input id="j_idt129:fromDate_input" name="j_idt129:fromDate_input" type="text" aria-required="true" value="07/17/2025" class="ui-inputfield ui-widget ui-state-default ui-corner-all" readonly="readonly" /></span><script id="j_idt129:fromDate_s" type="text/javascript">$(function(){PrimeFaces.cw("Calendar","widget_j_idt129_fromDate",{id:"j_idt129:fromDate",widgetVar:"widget_j_idt129_fromDate",popup:true,locale:"en",dateFormat:"mm/dd/yy",defaultDate:"07/17/2025",minDate:"04/01/2025",maxDate:"07/19/2025",showAnim:"fold",duration:"normal"});});</script></td>
+</tr>
+<tr>
+<td><label id="j_idt129:j_idt138" class="ui-outputlabel ui-widget" for="j_idt129:toDate_input">To:         <span class="ui-outputlabel-rfi">*</span></label></td>
+<td><span id="j_idt129:toDate"><input id="j_idt129:toDate_input" name="j_idt129:toDate_input" type="text" aria-required="true" value="07/18/2025" class="ui-inputfield ui-widget ui-state-default ui-corner-all" readonly="readonly" /></span><script id="j_idt129:toDate_s" type="text/javascript">$(function(){PrimeFaces.cw("Calendar","widget_j_idt129_toDate",{id:"j_idt129:toDate",widgetVar:"widget_j_idt129_toDate",popup:true,locale:"en",dateFormat:"mm/dd/yy",defaultDate:"07/18/2025",maxDate:"07/19/2025",showAnim:"fold",duration:"normal"});});</script></td>
+</tr>
+</tbody>
+</table>
+<table cellpadding="5">
+<tbody>
+<tr>
+<td><button id="j_idt129:bbBtn" name="j_idt129:bbBtn" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left" onclick="PrimeFaces.monitorDownload(start, stop);" style="background:#2B547E; color:white;" type="submit"><span class="ui-button-icon-left ui-icon ui-c ui-button-icon-left ui-icon ui-icon-arrowthick-1-e"></span><span class="ui-button-text ui-c">Go</span></button><script id="j_idt129:bbBtn_s" type="text/javascript">PrimeFaces.cw("CommandButton","widget_j_idt129_bbBtn",{id:"j_idt129:bbBtn",widgetVar:"widget_j_idt129_bbBtn"});</script></td>
+</tr>
+</tbody>
+</table>
+</div></fieldset><script id="j_idt129:bcub_s" type="text/javascript">PrimeFaces.cw("Fieldset","widget_j_idt129_bcub",{id:"j_idt129:bcub",widgetVar:"widget_j_idt129_bcub"});</script>*Please click on the icons to Download the data in excel or pdf respectively<div id="j_idt129:tbl" class="ui-datatable ui-widget ui-datatable-reflow" style="margin-bottom:20px"><div class="ui-datatable-header ui-widget-header ui-corner-top">Cumulative Unbilled Usage details</div><div id="j_idt129:tbl_paginator_top" class="ui-paginator ui-paginator-top ui-widget-header" role="navigation"><select id="j_idt129:tbl_rppDD" class="ui-paginator-rpp-options ui-widget ui-state-default ui-corner-left" value="10" autocomplete="off"><option value="5">5</option><option value="10" selected="selected">10</option><option value="15">15</option></select><span class="ui-paginator-first ui-state-default ui-corner-all ui-state-disabled"><span class="ui-icon ui-icon-seek-first">p</span></span><span class="ui-paginator-prev ui-state-default ui-corner-all ui-state-disabled"><span class="ui-icon ui-icon-seek-prev">p</span></span><span class="ui-paginator-current">(1 of 1)</span><span class="ui-paginator-pages"><span class="ui-paginator-page ui-state-default ui-state-active ui-corner-all" tabindex="0">1</span></span><span class="ui-paginator-next ui-state-default ui-corner-all ui-state-disabled"><span class="ui-icon ui-icon-seek-next">p</span></span><span class="ui-paginator-last ui-state-default ui-corner-all ui-state-disabled"><span class="ui-icon ui-icon-seek-end">p</span></span>
+<script type="text/javascript" src="/tungsten/javax.faces.resource/jsf.js.xhtml?ln=javax.faces"></script>
+<a id="j_idt129:tbl:excel" href="#" onclick="mojarra.jsfcljs(document.getElementById('j_idt129'),{'j_idt129:tbl:excel':'j_idt129:tbl:excel'},'');return false"><img id="j_idt129:tbl:j_idt142" src="/tungsten/UI/images/excel.png?pfdrid_c=true" alt="" width="24" /></a><div id="j_idt129:tbl:toolTipExcel" class="ui-tooltip ui-widget ui-widget-content ui-shadow ui-corner-all">Click here to Download Excel</div><script id="j_idt129:tbl:toolTipExcel_s" type="text/javascript">$(function(){PrimeFaces.cw("Tooltip","widget_j_idt129_tbl_toolTipExcel",{id:"j_idt129:tbl:toolTipExcel",widgetVar:"widget_j_idt129_tbl_toolTipExcel",showEffect:"fade",hideEffect:"fade",target:"j_idt129:tbl:excel",trackMouse:true});});</script>   <a id="j_idt129:tbl:pdf" href="#" onclick="mojarra.jsfcljs(document.getElementById('j_idt129'),{'j_idt129:tbl:pdf':'j_idt129:tbl:pdf'},'');return false"><img id="j_idt129:tbl:j_idt146" src="/tungsten/UI/images/pdf.png?pfdrid_c=true" alt="" width="24" /></a><div id="j_idt129:tbl:toolTipPdf" class="ui-tooltip ui-widget ui-widget-content ui-shadow ui-corner-all">Click here to Download pdf</div><script id="j_idt129:tbl:toolTipPdf_s" type="text/javascript">$(function(){PrimeFaces.cw("Tooltip","widget_j_idt129_tbl_toolTipPdf",{id:"j_idt129:tbl:toolTipPdf",widgetVar:"widget_j_idt129_tbl_toolTipPdf",showEffect:"fade",hideEffect:"fade",target:"j_idt129:tbl:pdf",trackMouse:true});});</script></div><div class="ui-datatable-tablewrapper"><table role="grid"><thead id="j_idt129:tbl_head"><tr role="row"><th id="j_idt129:tbl:j_idt147" class="ui-state-default" role="columnheader"><span class="ui-column-title">Total Upload Vol(MB)</span></th><th id="j_idt129:tbl:j_idt149" class="ui-state-default" role="columnheader"><span class="ui-column-title">Total Download Vol(MB)</span></th><th id="j_idt129:tbl:j_idt151" class="ui-state-default" role="columnheader"><span class="ui-column-title">Total Vol(MB)</span></th><th id="j_idt129:tbl:j_idt153" class="ui-state-default" role="columnheader"><span class="ui-column-title">Total Chargeable Units(MB)</span></th><th id="j_idt129:tbl:j_idt155" class="ui-state-default" role="columnheader"><span class="ui-column-title">Total Duration</span></th><th id="j_idt129:tbl:j_idt157" class="ui-state-default" role="columnheader"><span class="ui-column-title">BB Plan</span></th></tr></thead><tbody id="j_idt129:tbl_data" class="ui-datatable-data ui-widget-content"><tr data-ri="0" class="ui-widget-content ui-datatable-even" role="row"><td role="gridcell">1462.52</td><td role="gridcell">26297.14</td><td role="gridcell">27759.66</td><td role="gridcell">0</td><td role="gridcell">24:07:07</td><td role="gridcell">HOME_WiFi/GHAR_KA_WiFi_RURAL_COMMITED_6</td></tr></tbody></table></div></div><script id="j_idt129:tbl_s" type="text/javascript">$(function(){PrimeFaces.cw("DataTable","widget_j_idt129_tbl",{id:"j_idt129:tbl",widgetVar:"widget_j_idt129_tbl",paginator:{id:['j_idt129:tbl_paginator_top'],rows:10,rowCount:1,page:0,currentPageTemplate:'({currentPage} of {totalPages})'},reflow:true});});</script><input type="hidden" name="javax.faces.ViewState" id="j_id1:javax.faces.ViewState:0" value="-5584697466361006155:-4186683132463205473" autocomplete="off" />
+</form>
+		</div>
+		</div><div id="j_idt160" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow ui-hidden-container"><div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top"><span id="j_idt160_title" class="ui-dialog-title">Loading..</span></div><div class="ui-dialog-content ui-widget-content"><img id="j_idt161" src="../images/design/circle2.gif?pfdrid_c=true" alt="" /></div></div><script id="j_idt160_s" type="text/javascript">$(function(){PrimeFaces.cw("Dialog","statusDialog",{id:"j_idt160",widgetVar:"statusDialog",draggable:false,resizable:false,modal:true});});</script>
+					
+				</div>
+
+				<div class="col-lg-3">
+					<div class="row">
+						<div class="panel panel-primary">
+							<div class="panel-heading"><table>
+<tbody>
+<tr>
+<td>Welcome, shivansh</td>
+</tr>
+<tr>
+<td><span style="font-size: 80%;">Last Login: 2025-07-19 00:31:47 </span></td>
+</tr>
+</tbody>
+</table>
+
+							</div>
+							<div class="panel-body"><table>
+<tbody>
+<tr>
+<td><span style="font-weight: bold;">Customer Id </span></td>
+<td><span style="font-weight: bold;">:</span></td>
+<td>1028233728</td>
+</tr>
+<tr>
+<td><span style="font-weight: bold;">Customer Name </span></td>
+<td><span style="font-weight: bold;">:</span></td>
+<td>REMAN</td>
+</tr>
+<tr>
+<td><span style="font-weight: bold;">Service Id </span></td>
+<td><span style="font-weight: bold;">:</span></td>
+<td>0184-2986600</td>
+</tr>
+</tbody>
+</table>
+<hr id="j_idt177" class="ui-separator ui-state-default ui-corner-all" /><table>
+<tbody>
+<tr>
+<td><span style="font-weight: bold;">Mobile Number </span></td>
+<td><span style="font-weight: bold;">:</span></td>
+<td>8708606784</td>
+</tr>
+<tr>
+<td><span style="font-weight: bold;">Email Id </span></td>
+<td><span style="font-weight: bold;">:</span></td>
+<td>kambojshivanshu2004@gmail.com</td>
+</tr>
+</tbody>
+</table>
+<hr id="j_idt185" class="ui-separator ui-state-default ui-corner-all" /><table>
+<tbody>
+<tr>
+<td><span style="font-weight: bold;">Account Type </span></td>
+<td><span style="font-weight: bold;">:</span></td>
+<td>INDIVIDUAL</td>
+</tr>
+<tr>
+<td><span style="font-weight: bold;">Account Subtype </span></td>
+<td><span style="font-weight: bold;">:</span></td>
+<td>OTHERS</td>
+</tr>
+</tbody>
+</table>
+<hr id="j_idt193" class="ui-separator ui-state-default ui-corner-all" />
+								<!-- 
+							
+							&lt;h:panelGrid columns="3"&gt;
+									&lt;h:outputText value="Communication. Address"
+									style="font-weight: bold;" /&gt;
+								&lt;h:outputText value=":" style="font-weight: bold;" /&gt;
+								&lt;h:outputText style="w" value= "165,KALRI JAGIRKARNAL,HAKARNAL,KARNAL,HARYANA,132054" /&gt;
+							&lt;/h:panelGrid&gt;
+							&lt;p:separator /&gt; --><table>
+<tbody>
+<tr>
+<td><span style="font-weight: bold;">Bill Media Type</span></td>
+<td><span style="font-weight: bold;">:</span></td>
+<td>E-MAIL : kambojshivanshu2004@gmail.com</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="panel panel-primary">
+							<div class="panel-heading">Quick Links</div>
+							<div class="panel-body">
+<form id="tagCloud" name="tagCloud" method="post" action="/tungsten/UI/facelets/bbCumulativeUnbilled.xhtml" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="tagCloud" value="tagCloud" />
+<div id="tagCloud:j_idt200" class="ui-tagcloud ui-widget ui-widget-content ui-corner-all" style="width:98%;"><ul><li class="ui-tagcloud-strength-1"><a href="#">View Bills</a></li><li class="ui-tagcloud-strength-4"><a href="#">Pay Mobile Bills</a></li><li class="ui-tagcloud-strength-3"><a href="#">Quick Pay</a></li><li class="ui-tagcloud-strength-2"><a href="#">View/Redeem Loyalty Points</a></li><li class="ui-tagcloud-strength-4"><a href="#">Register for Mobile Number &amp; Email ID</a></li></ul></div><script id="tagCloud:j_idt200_s" type="text/javascript">PrimeFaces.cw("TagCloud","widget_tagCloud_j_idt200",{id:"tagCloud:j_idt200",widgetVar:"widget_tagCloud_j_idt200",behaviors:{select:function(ext) {PrimeFaces.ab({s:"tagCloud:j_idt200",e:"select",f:"tagCloud",p:"tagCloud:j_idt200",onst:function(cfg){PrimeFaces.monitorDownload(start);},onsu:function(data,status,xhr){PrimeFaces.monitorDownload(stop);}},ext);}}});</script><input type="hidden" name="javax.faces.ViewState" id="j_id1:javax.faces.ViewState:0" value="-5584697466361006155:-4186683132463205473" autocomplete="off" />
+</form>
+
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div></body>
+</html>

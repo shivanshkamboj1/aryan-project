@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { socket } from '../../operations/socket';
 import Peer from '../../operations/rtcp';
+import { Button } from "@/components/ui/button"
+
 
 const Video = ({ roomId, userId }) => {
   const [myStream, setMyStream] = useState(null);
@@ -130,18 +132,19 @@ const Video = ({ roomId, userId }) => {
 
       {/* Controls */}
       <div className="flex gap-2 mt-2">
-        <button
+        <Button
+          variant="otuline"
           onClick={toggleMic}
-          className={`flex-1 px-2 py-1 rounded text-white ${micEnabled ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'} transition`}
-        >
-          {micEnabled ? 'Turn Off Mic' : 'Turn On Mic'}
-        </button>
-        <button
+          className=" bg-green-300"        >
+          {micEnabled ? 'Mic off' : 'On Mic'}
+        </Button>
+        <Button
+          variant="otuline"
           onClick={toggleCamera}
-          className={`flex-1 px-2 py-1 rounded text-white ${cameraEnabled ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'} transition`}
+          className=" bg-green-300"
         >
           {cameraEnabled ? 'Turn Off Camera' : 'Turn On Camera'}
-        </button>
+        </Button>
       </div>
     </div>
   );

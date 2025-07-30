@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css'
 import { Toaster } from 'react-hot-toast';
-import { ToastContainer, toast } from 'react-toastify';
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { socket } from "./operations/socket";
 import Home from './pages/Home'
@@ -58,8 +57,25 @@ const App = () => {
           </Route>
           <Route path="*" element={< NotFound/>} />
       </Routes>
-      <Toaster position="top-center" />
-      <ToastContainer />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          // duration: 3000,
+          className: "bg-white border border-gray-200 text-sm text-gray-800 rounded-lg shadow-md px-4 py-3",
+          success: {
+            iconTheme: {
+              primary: "#4ade80",    // green
+              secondary: "#f0fdf4",  // light green bg
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: "#f87171",    // red
+              secondary: "#fef2f2",  // light red bg
+            },
+          },
+        }}
+      />
     </BrowserRouter>
   )
 }

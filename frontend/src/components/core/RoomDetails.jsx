@@ -16,6 +16,7 @@ const RoomDetails = () => {
   const [state, setState] = useState({
     loading: false,
     error: null,
+    time:3000,
     room: null,
     participants: [],
   });
@@ -62,7 +63,14 @@ const RoomDetails = () => {
   }, [roomId]);
    useEffect(() => {
     if (state.error) {
-      setTimeout(() => navigate('/room'), 3000);
+      const tim = setTimeout(() => navigate('/room'), 3000);
+      const inte = setInterval(() => {
+        setState((prev)=>({...prev,time:prev.time-1000}))
+      }, 1000);
+      return ()=>{
+        clearInterval(inte)
+        clearTimeout(tim)
+      }
     }
   }, [state.error, navigate]);
   const joinRoomHandler = () => {
@@ -78,7 +86,7 @@ const RoomDetails = () => {
   }
 
   if (state.error) {
-    return <div className="flex justify-center items-center h-screen text-red-600">{state.error} - redirecting in 3 second</div>;
+    return <div className="flex justify-center items-center h-screen text-red-600">{state.error} - redirecting in {Math.floor((+state.time) / 1000)} second</div>;
   }
 
   if (!state.room) {
