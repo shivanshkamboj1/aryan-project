@@ -61,6 +61,6 @@ app.get('/', (req, res) => {
 setupSocketServer(io);
 
 
-server.listen(PORT, () => {
-  console.log(`server is running at ${PORT}`)
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`server is running at ${PORT}`);
 });
