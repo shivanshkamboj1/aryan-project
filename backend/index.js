@@ -27,7 +27,7 @@ const app = express();
 
 const server = http.createServer(app);
 app.use(cors({
-  origin:["http://localhost:5173","http://localhost:3000"],
+  origin:["http://localhost:5173","http://localhost:3000","https://video-project-sable.vercel.app"],
   credentials:true
 }))
 
